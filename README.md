@@ -3,5 +3,5 @@
 | Anggota | NIM |
 | --- | --- |
 |Dionisius Darryl H. | 13519058 |	
-|Rehagana Christian K. C. | 13519117 |	
+|Rehagana Kevin C. S. | 13519117 |	
 |Rizky Anggita S. S. | 13519132 |
