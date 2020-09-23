@@ -3,6 +3,7 @@ package src;
 import java.util.*;
 
 public class Matriks {
+    //
     /* Definisi ADT Matriks */
     /* Attribute */
     // int IdxBrsMin = 0;
