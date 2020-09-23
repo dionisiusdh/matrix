@@ -52,7 +52,7 @@ public class Matriks {
             for (int j=0; j < this.NKolEff; j++){
                 System.out.print(this.M[i][j] + " ");
             }
-            System.out.println("");
+            System.out.println();
         }
     }
 }
