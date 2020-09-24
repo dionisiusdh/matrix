@@ -1,21 +1,26 @@
 package src;
 
+import java.io.File;
+import java.io.FileReader;
 import java.util.*;
+import java.io.*;
+
+import javax.sound.midi.SysexMessage;
 
 public class Matriks {
     //
     /* Definisi ADT Matriks */
     /* Attribute */
-    // int IdxBrsMin = 0;
-    // int IdxBrsMax = 99;
-    // int IdxKolMin = 0;
-    // int IdxKolMax = 99;
-    // int IdxUndef = -999;
+    int IdxBrsMin = 0;
+    int IdxBrsMax = 99;
+    int IdxKolMin = 0;
+    int IdxKolMax = 99;
+    int IdxUndef = -999;
 
     int NBrsEff;
     int NKolEff;
 
-    float[][] M = new float[100][100];
+    float[][] M = new float[IdxBrsMax+1][IdxKolMax+1];
 
     /* Method */
     /* --- KONSTRUKTOR --- */
@@ -45,6 +50,32 @@ public class Matriks {
                 this.M[i][j] = scan.nextInt();
             }
         }
+    }
+    public void BacaMatriksTxt(){
+        //Membaca matriks dari file .txt
+        try{
+            //Mencari jumlah baris dan kolom dan memasukkan ke matriks
+            BufferedReader br = new BufferedReader(new FileReader(new File("src/test.txt"))); 
+            String line;
+            int baris = 0;
+            int kolom = 0; 
+            while ((line = br.readLine()) != null){
+                Scanner scan = new Scanner(line);
+                int j = 0;
+                while (scan.hasNextFloat()){
+                    this.M[baris][j] = scan.nextFloat();
+                    j++;
+                    if (baris==0) kolom++;    
+                }
+                baris++;
+            }
+            this.NBrsEff = baris;
+            this.NKolEff = kolom;
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }
 
     public void TulisMatriks() {
