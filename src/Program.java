@@ -9,5 +9,9 @@ class Program {
         M.BacaMatriksTxt();
         // M.BacaMatriks();
         M.TulisMatriks();
+
+        //Prekondisi M adalah square matrix
+        float det = M.DeterminanOBE();
+        System.out.println(det);
     }
 }
