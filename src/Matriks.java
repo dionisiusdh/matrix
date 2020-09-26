@@ -376,17 +376,9 @@ public class Matriks {
     public float PivotPembagi(int brs){
         // Mencari pembagi pada sebuah pivot
         // Pembagi == elemen paling kiri dalam sebuah baris
-        boolean found = false;
         float pembagi = this.IdxUndef;
-
-        int j = 0;
-
-        while(!found && j<this.NKolEff) {
-            if(this.M[brs][j] != 0) {
-                pembagi = this.M[brs][j];
-                found = true;
-            }
-            j += 1;
+        if (CariIdxKolPivot(brs) != this.IdxUndef){
+            pembagi = this.M[brs][CariIdxKolPivot(brs)];
         }
         return pembagi;
     }
