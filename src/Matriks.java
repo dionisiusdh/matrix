@@ -379,6 +379,12 @@ public class Matriks {
                 kol = pivotPos + 1; //ini berfungsi untuk mengambil submatrix
             }
         }
+        // Perbaiki output -0.0 agar menjadi 0.0
+        for (int m = 0; m <= this.NBrsEff; m++) {
+            for(int n = 0; n <= this.NKolEff; n++) {
+                this.PerbaikiNol(m, n);
+            }
+        }
     }
     
     public void EliminasiGaussJordan() {
