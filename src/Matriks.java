@@ -281,9 +281,9 @@ public class Matriks {
             }
         }
         return MAugmented;
-   }
+    }
 
-   public Matriks BuatMatriksBalikan() {
+    public Matriks BuatMatriksBalikan() {
         // Metode yang digunakan adalah OBE
         Matriks MIdentitas = new Matriks();
         Matriks MAugmented = new Matriks();
@@ -296,5 +296,98 @@ public class Matriks {
         MAugmented = this.BuatMatriksAugmented(M1, MIdentitas);
 
         return MAugmented;
-   }
+    }
+
+    /* ======================== METODE ELIMINASI ======================== */
+    public void EliminasiGauss() {
+        // Menggunakan eliminasi Gauss Jordan untuk membuat matriks echelon
+        for(int i=0; i <= this.NBrsEff; i++){
+            if(IsBrsPivot(i)){
+                int idx_kol_pivot = CariIdxKolPivot(i);
+                float pembagi = PivotPembagi(i);
+
+                for(int j = i-1; j >= 0; j--){
+                    if(this.M[j][idx_kol_pivot] != 0){
+                        float pengali = this.M[j][idx_kol_pivot] / pembagi;
+
+                        for (int k = 0; k <= this.NKolEff; k++){
+                            this.M[j][k] -= (pengali * this.M[i][k]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    public void EliminasiGaussJordan() {
+        // Menggunakan eliminasi Gauss Jordan untuk membuat matriks echelon tereduksi
+        this.EliminasiGauss();
+        
+        for(int i=0; i<this.NBrsEff; i++){
+            if(IsBrsPivot(i)){
+                int idx_kol_pivot = CariIdxKolPivot(i);
+                float pembagi = PivotPembagi(i);
+
+                for(int j = i-1; j >= 0; j--){
+                    if(this.M[j][idx_kol_pivot] != 0){
+                        float pengali = this.M[j][idx_kol_pivot] / pembagi;
+
+                        for (int k = 0; k <= this.NKolEff; k++){
+                            this.M[j][k] -= (pengali * this.M[i][k]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+   /* ======================== FUNGSI PEMBANTU ======================== */
+    public boolean IsBrsPivot(int brs) {
+        // Cek apakah sebuah baris memiliki pivot (elemen yang != 0)
+        boolean found = false;
+        int j=0;
+
+        while(!found && j<this.NBrsEff) {
+            if(this.M[brs][j] != 0) {
+                found = true;
+            }
+            j += 1;
+        }
+        return found;
+    }
+
+    public int CariIdxKolPivot(int brs) {
+        // Mencari indeks kolom pivot pada baris brs
+        boolean found = false;
+        int IdxKolPivot = this.IdxUndef;
+
+        int j = 0;
+
+        while(!found && j<this.NKolEff) {
+            if(this.M[brs][j] != 0) {
+                IdxKolPivot = j;
+                found = true;
+            }
+            j += 1;
+        }
+        return IdxKolPivot;
+    }
+
+    public float PivotPembagi(int brs){
+        // Mencari pembagi pada sebuah pivot
+        // Pembagi == elemen paling kiri dalam sebuah baris
+        boolean found = false;
+        float pembagi = this.IdxUndef;
+
+        int j = 0;
+
+        while(!found && j<this.NKolEff) {
+            if(this.M[brs][j] != 0) {
+                pembagi = this.M[brs][j];
+                found = true;
+            }
+            j += 1;
+        }
+        return pembagi;
+    }
 }

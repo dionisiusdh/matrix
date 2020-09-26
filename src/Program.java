@@ -29,5 +29,9 @@ class Program {
         Matriks M3Balikan = M3.BuatMatriksBalikan();
         System.out.println();
         M3Balikan.TulisMatriks();
+
+        System.out.println();
+        M3Balikan.EliminasiGaussJordan();
+        M3Balikan.TulisMatriks();
     }
 }
