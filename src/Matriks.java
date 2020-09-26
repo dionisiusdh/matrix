@@ -364,12 +364,11 @@ public class Matriks {
                 scaleBaris(i, 1/this.M[i][kol]);
                 pivotPos = CariIdxKolPivot(i);
     
-    
                 //replacement operations to create zeros in every position in this column
                 //below the pivot position
                 for (int a=i+1; a<this.NBrsEff; a++){
                     float pengali = this.M[a][pivotPos];
-                    // System.out.println(pengali);
+                    // System.out.println("Pengali: " + pengali);
                     for (int b=i; b<this.NKolEff; b++){
                         if (b>=pivotPos){
                             this.M[a][b] = this.M[a][b] - (pengali*this.M[i][b]);
@@ -377,6 +376,9 @@ public class Matriks {
                     }
                 }
                 kol = pivotPos + 1; //ini berfungsi untuk mengambil submatrix
+            }
+            else{
+                System.out.println("Tidak Masuk!");
             }
         }
         // Perbaiki output -0.0 agar menjadi 0.0
@@ -468,7 +470,7 @@ public class Matriks {
 
     public void scaleBaris(int barisX, float scaler){
         //Mengubah elemen barisX, bisa dibagi atau dikali (diatur di parameter scaler);
-        for (int kol=0; kol<= this.NKolEff; kol++){
+        for (int kol=0; kol< this.NKolEff; kol++){
             this.M[barisX][kol]  = this.M[barisX][kol] * scaler;
         }
     }
@@ -476,7 +478,7 @@ public class Matriks {
     public boolean isAllZeroBrs(int barisX){
         //Mengecek apakah elemen pada barisX semuanya 0
         int count = 0;
-        for (int kolom=0; kolom<=this.NKolEff; kolom++ ){
+        for (int kolom=0; kolom<this.NKolEff; kolom++ ){
             if (this.M[barisX][kolom] == 0){
                 count++;
             }
@@ -487,7 +489,7 @@ public class Matriks {
     public boolean isAllZeroKol(int kolomX){
         //Mengecek apakah elemen pada kolomX semuanya 0 
         int count = 0;
-        for (int baris=0; baris<=this.NBrsEff; baris++ ){
+        for (int baris=0; baris<this.NBrsEff; baris++ ){
             if (this.M[baris][kolomX] == 0){
                 count++;
             }
