@@ -301,12 +301,16 @@ public class Matriks {
     /* ======================== METODE ELIMINASI ======================== */
     public void EliminasiGauss() {
         // Menggunakan eliminasi Gauss Jordan untuk membuat matriks echelon
+
+        // Pencarian baris pivot
+        // Retrieve pembagi dan pengali dari matriks untuk dilakukan OBE
         for(int i=0; i <= this.NBrsEff; i++){
             if(IsBrsPivot(i)){
-                int idx_kol_pivot = CariIdxKolPivot(i);
-                float pembagi = PivotPembagi(i);
+                int idx_kol_pivot = this.CariIdxKolPivot(i);
+                float pembagi = this.PivotPembagi(i); // Pembagi == Elemen paling kiri
 
-                for(int j = i-1; j >= 0; j--){
+                // Hilangkan angka non-zero dibawah posisi pivot
+                for(int j = i+1; j <= this.NBrsEff; j++){
                     if(this.M[j][idx_kol_pivot] != 0){
                         float pengali = this.M[j][idx_kol_pivot] / pembagi;
 
@@ -314,19 +318,48 @@ public class Matriks {
                             this.M[j][k] -= (pengali * this.M[i][k]);
                         }
                     }
+                    this.M[j][idx_kol_pivot] = 0;
                 }
+            }
+        }
+
+        // Bagi semua kolom dengan PivotPembagi agar menghasilkan leading one
+        int l = 0;
+        while(l <= this.NBrsEff){
+            if(this.CariIdxKolPivot(l) != this.IdxUndef){
+                scaleBaris(l, 1/PivotPembagi(l));
+            }
+            l += 1;
+        }
+
+        // Ubah urutan leading one agar menjadi matriks echelon
+        //for (int m = 0; m <= this.NBrsEff; m++){
+        //    for(int n = m+1; n <= this.NBrsEff; n++){
+        //        if (this.CariIdxKolPivot(m) > CariIdxKolPivot(n)){
+        //            swapBaris(m, n);
+        //        }
+        //    }
+        //}
+        
+        // Perbaiki output -0.0 agar menjadi 0.0
+        for (int m = 0; m <= this.NBrsEff; m++) {
+            for(int n = 0; n <= this.NKolEff; n++) {
+                this.PerbaikiNol(m, n);
             }
         }
     }
     
     public void EliminasiGaussJordan() {
         // Menggunakan eliminasi Gauss Jordan untuk membuat matriks echelon tereduksi
+        // Pertama-tama, terapkan eliminasi Gauss pada matrix agar menjadi matriks echelon
         this.EliminasiGauss();
         
-        for(int i=0; i<this.NBrsEff; i++){
+        // Pencarian baris pivot
+        // Retrieve pembagi dan pengali dari matriks untuk dilakukan OBE
+        for(int i=this.NBrsEff; i >= 0; i--) {
             if(IsBrsPivot(i)){
-                int idx_kol_pivot = CariIdxKolPivot(i);
-                float pembagi = PivotPembagi(i);
+                int idx_kol_pivot = this.CariIdxKolPivot(i);
+                float pembagi = this.PivotPembagi(i);
 
                 for(int j = i-1; j >= 0; j--){
                     if(this.M[j][idx_kol_pivot] != 0){
@@ -347,7 +380,7 @@ public class Matriks {
         boolean found = false;
         int j=0;
 
-        while(!found && j<this.NBrsEff) {
+        while(!found && j<=this.NKolEff) {
             if(this.M[brs][j] != 0) {
                 found = true;
             }
@@ -363,7 +396,7 @@ public class Matriks {
 
         int j = 0;
 
-        while(!found && j<this.NKolEff) {
+        while(!found && j<=this.NKolEff) {
             if(this.M[brs][j] != 0) {
                 IdxKolPivot = j;
                 found = true;
@@ -382,19 +415,22 @@ public class Matriks {
         }
         return pembagi;
     }
+
     public void swapBaris(int baris1, int baris2){
         //Me-swap baris1 dan baris2
-        float temp;
-        for (int kol=0; kol< this.NKolEff; kol++){
-            temp = this.M[baris1][kol];
-            this.M[baris1][kol] = this.M[baris2][kol];
-            this.M[baris2][kol] = temp;
-        }
+        float[] temp = this.M[baris1];
+        this.M[baris1] = this.M[baris2];
+        this.M[baris2] = temp;
+        //for (int kol=0; kol<=this.NKolEff; kol++){
+        //    temp = this.M[baris1][kol];
+        //    this.M[baris1][kol] = this.M[baris2][kol];
+        //    this.M[baris2][kol] = temp;
+        //}
     }
 
     public void scaleBaris(int barisX, float scaler){
         //Mengubah elemen barisX, bisa dibagi atau dikali (diatur di parameter scaler);
-        for (int kol=0; kol< this.NKolEff; kol++){
+        for (int kol=0; kol<= this.NKolEff; kol++){
             this.M[barisX][kol]  = this.M[barisX][kol] * scaler;
         }
     }
@@ -402,7 +438,7 @@ public class Matriks {
     public boolean isAllZeroBrs(int barisX){
         //Mengecek apakah elemen pada barisX semuanya 0
         int count = 0;
-        for (int kolom=0; kolom<this.NKolEff; kolom++ ){
+        for (int kolom=0; kolom<=this.NKolEff; kolom++ ){
             if (this.M[barisX][kolom] == 0){
                 count++;
             }
@@ -413,11 +449,19 @@ public class Matriks {
     public boolean isAllZeroKol(int kolomX){
         //Mengecek apakah elemen pada kolomX semuanya 0 
         int count = 0;
-        for (int baris=0; baris<this.NBrsEff; baris++ ){
+        for (int baris=0; baris<=this.NBrsEff; baris++ ){
             if (this.M[baris][kolomX] == 0){
                 count++;
             }
         }
         return (count==this.NBrsEff);
+    }
+
+    public float PerbaikiNol(int i, int j) {
+        // Perbaiki output program -0.0 agar menjadi 0.0
+        if(this.M[i][j] == -0.0) {
+            this.M[i][j] = 0;
+        }
+        return this.M[i][j];
     }
 }

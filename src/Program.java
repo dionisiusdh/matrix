@@ -24,11 +24,15 @@ class Program {
 
         // Matriks Balikan
         Matriks M3 = new Matriks();
-        M3.BacaMatriksTxt("src/test.txt");
+        M3.BacaMatriksTxt("src/gauss_test.txt");
 
         Matriks M3Balikan = M3.BuatMatriksBalikan();
+        //System.out.println();
+        //M3Balikan.TulisMatriks();
+
         System.out.println();
-        M3Balikan.TulisMatriks();
+        M3.EliminasiGauss();
+        M3.TulisMatriks();
 
         System.out.println();
         M3Balikan.EliminasiGaussJordan();
