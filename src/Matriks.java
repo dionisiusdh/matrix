@@ -5,9 +5,7 @@ import java.io.FileReader;
 import java.util.*;
 import java.io.*;
 
-
 public class Matriks {
-    //
     /* Definisi ADT Matriks */
     /* Attribute */
     int IdxBrsMin = 0;
@@ -22,7 +20,7 @@ public class Matriks {
     float[][] M = new float[IdxBrsMax+1][IdxKolMax+1];
 
     /* Method */
-    /* --- KONSTRUKTOR --- */
+    /* ======================== KONSTRUKTOR ======================== */
     public Matriks() {
         // Mendefinisikan matriks kosong
         // this.NBrsEff = 0;
@@ -35,6 +33,15 @@ public class Matriks {
         // }
     }
 
+    public Matriks BuatMatriks(Matriks M, int NBrsEff, int NKolEff) {
+        Matriks M1 = new Matriks();
+        M1.M = this.M;
+        M1.NBrsEff = NBrsEff;
+        M1.NKolEff = NKolEff;
+
+        return M1;
+    }
+    
     public void BacaMatriks() {
         // Membaca input matriks
         Scanner scan = new Scanner(System.in);
@@ -51,11 +58,11 @@ public class Matriks {
         }
     }
 
-    public void BacaMatriksTxt(){
+    public void BacaMatriksTxt(String path){
         //Membaca matriks dari file .txt
         try{
             //Mencari jumlah baris dan kolom dan memasukkan ke matriks
-            BufferedReader br = new BufferedReader(new FileReader(new File("src/test.txt"))); 
+            BufferedReader br = new BufferedReader(new FileReader(new File(path))); 
             String line;
             int baris = 0;
             int kolom = 0; 
@@ -75,7 +82,6 @@ public class Matriks {
         }catch (Exception e) {
             e.printStackTrace();
         }
-        
     }
 
     public void TulisMatriks() {
@@ -88,23 +94,52 @@ public class Matriks {
         }
     }
 
-    public float DeterminanOBE(){
+    public int NbElmt(Matriks M) {
+        // Mereturn banyak elemen dari matriks M
+        return (M.NBrsEff * M.NKolEff);
+    }
+
+    /* ======================== OPERASI MATRIKS ======================== */
+    public Matriks CopyMatriks(Matriks M, Matriks MHsl) {
+        for (int x=0; x < M.NBrsEff; x++){
+            for (int y=0; y < M.NKolEff; y++){
+                MHsl.M[x][y] = M.M[x][y];
+            }
+        }
+        return MHsl;
+    }
+    
+    public float[][] Transpose(Matriks M) {
+        // Mereturn transpose dari matriks M
+        float[][] MTranspose = new float[IdxBrsMax+1][IdxKolMax+1];
+
+        for (int i=0; i < M.NBrsEff; i++){
+            for (int j=0; j < M.NKolEff; j++){
+                MTranspose[i][j] = M.M[i][j];
+            }
+        }
+        return MTranspose;
+    }
+
+    public void TransposeMatriks() {
+        this.M = Transpose(this);
+
+        int temp = this.NBrsEff;
+        this.NBrsEff = this.NKolEff;
+        this.NKolEff = temp;
+    }
+
+    /* ======================== DETERMINAN ======================== */
+    public float DeterminanOBE() {
         //Determinan menggunakan reduksi baris
         //PREKONDISI Matriks adalah bujur sangkar
         int i,j,k;
         float determinan = 1;
 
-        Matriks M1 = new Matriks();
-        M1.M = this.M;
-        M1.NBrsEff = this.NBrsEff;
-        M1.NKolEff = this.NKolEff;
+        Matriks M1 = BuatMatriks(this, this.NBrsEff, this.NKolEff);
 
-        //Copy Matriks (bisa dibuat fungsi sendiri)
-        for (int x=0; x < this.NBrsEff; x++){
-            for (int y=0; y < this.NKolEff; y++){
-                M1.M[x][y] = this.M[x][y];
-            }
-        }
+        //Copy Matriks
+        M1 = CopyMatriks(this, M1);
 
         //Mengecek apakah elemen 0,0 bernilai 0, jika iya tukar baris
         int x,y;
@@ -116,8 +151,8 @@ public class Matriks {
         {
             if (M1.M[0][0] == 0){
                 sign = sign * (-1);
-                for (x=0; x<M1.NBrsEff; x++){
-                    for (y=0; y< M1.NBrsEff; y++){
+                for (x=0; x < M1.NBrsEff; x++){
+                    for (y=0; y < M1.NBrsEff; y++){
                         temp1 = M1.M[0][y];
                         M1.M[0][y] = M1.M[counter+1][y];
                         M1.M[counter+1][y] = temp1;
@@ -131,7 +166,6 @@ public class Matriks {
             else{
                 isZero = false;
             }
-            
         }
         
         //Jika sebuah kolom element nya 0 semua, determinan = 0
@@ -165,5 +199,56 @@ public class Matriks {
         }
         return determinan*sign;
     }
-    
+
+    public float DeterminanKofaktor() {
+        float det = 0;
+        int sign = 1;
+
+        Matriks M1 = BuatMatriks(this, this.NBrsEff, this.NKolEff);
+        M1 = CopyMatriks(this, M1);
+
+        //DEBUG
+        //M1.TulisMatriks();
+        //System.out.println();
+
+        // Mengecek kasus sederhana dimana ukuran M 1x1 atau 2x2 (Basis)
+        if(NbElmt(M1) == 1) {
+            return this.M[0][0];
+        } else if (NbElmt(M1) == 2) {
+            return (this.M[0][0] * this.M[1][1] - this.M[0][1] * this.M[1][0]);
+        } else { 
+            // Ukuran M >= 3x3
+            // Ambil pivot pada baris pertama (i = 0)
+            for (int j = 0; j <= this.NKolEff; j++){
+                M1 = MinorEntri(0, j);
+                det += this.M[0][j] * (sign * M1.DeterminanKofaktor());
+                sign *= -1;
+            }
+        }
+        return det;
+    }
+
+    public Matriks MinorEntri(int x, int y) {
+        // Mengembalikan matriks minor entri saat dipivot pada (x,y)
+        Matriks MMinorEntri = BuatMatriks(this, this.NBrsEff-1, this.NKolEff-1);
+
+        int m = 0;
+
+        for (int i = 0; i <= this.NBrsEff; i++) {
+            int n = 0;
+            if (i != x) {
+                for (int j = 0; j <= this.NKolEff; j++) {
+                    if (j != y) {
+                        MMinorEntri.M[m][n] = this.M[i][j];
+                        n += 1;
+                    }
+                }
+                m += 1;
+            }
+        }
+        //DEBUG
+        //System.out.println();
+        //MMinorEntri.TulisMatriks();
+        return MMinorEntri;
+    }
 }
