@@ -348,6 +348,38 @@ public class Matriks {
             }
         }
     }
+    public void EliminasiGaussV2() {
+        
+        int kol = 0;
+        int pivotPos = -1;
+        for (int i=0; i<this.NBrsEff; i++){
+            if (!isAllZeroBrs(i)){
+                System.out.println("MASUK");
+                //This is a pivot column
+                for (int x=i; x<this.NBrsEff-1; x++){
+                    if (this.M[i][kol] == 0){
+                        swapBaris(i, x+1);
+                    }
+                }
+                scaleBaris(i, 1/this.M[i][kol]);
+                pivotPos = CariIdxKolPivot(i);
+    
+    
+                //replacement operations to create zeros in every position in this column
+                //below the pivot position
+                for (int a=i+1; a<this.NBrsEff; a++){
+                    float pengali = this.M[a][pivotPos];
+                    // System.out.println(pengali);
+                    for (int b=i; b<this.NKolEff; b++){
+                        if (b>=pivotPos){
+                            this.M[a][b] = this.M[a][b] - (pengali*this.M[i][b]);
+                        }
+                    }
+                }
+                kol = pivotPos + 1; //ini berfungsi untuk mengambil submatrix
+            }
+        }
+    }
     
     public void EliminasiGaussJordan() {
         // Menggunakan eliminasi Gauss Jordan untuk membuat matriks echelon tereduksi
