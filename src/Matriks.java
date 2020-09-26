@@ -400,24 +400,24 @@ public class Matriks {
     }
 
     public boolean isAllZeroBrs(int barisX){
-        //Mengecek apakah elemen pada barisX semuanya 0 (matriks augmented)
+        //Mengecek apakah elemen pada barisX semuanya 0
         int count = 0;
-        for (int kolom=0; kolom<this.NKolEff-1; kolom++ ){
+        for (int kolom=0; kolom<this.NKolEff; kolom++ ){
             if (this.M[barisX][kolom] == 0){
                 count++;
             }
         }
-        return (count==this.NKolEff-1);
+        return (count==this.NKolEff);
     }
 
     public boolean isAllZeroKol(int kolomX){
-        //Mengecek apakah elemen pada kolomX semuanya 0 (matriks augmented)
+        //Mengecek apakah elemen pada kolomX semuanya 0 
         int count = 0;
-        for (int baris=0; baris<this.NBrsEff-1; baris++ ){
+        for (int baris=0; baris<this.NBrsEff; baris++ ){
             if (this.M[baris][kolomX] == 0){
                 count++;
             }
         }
-        return (count==this.NBrsEff-1);
+        return (count==this.NBrsEff);
     }
 }
