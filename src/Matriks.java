@@ -23,19 +23,18 @@ public class Matriks {
     /* ======================== KONSTRUKTOR ======================== */
     public Matriks() {
         // Mendefinisikan matriks kosong
-        // this.NBrsEff = 0;
-        // this.NKolEff = 0;
+        this.NBrsEff = 0;
+        this.NKolEff = 0;
 
-        // for (int i=0; i <= this.IdxBrsMax; i++){
-        //     for (int j=0; j <= this.IdxKolMax; j++){
-        //         this.M[i][j] = 0;
-        //     }
-        // }
+        for (int i=0; i <= this.IdxBrsMax; i++){
+             for (int j=0; j <= this.IdxKolMax; j++){
+                 this.M[i][j] = 0;
+             }
+        }
     }
 
-    public Matriks BuatMatriks(Matriks M, int NBrsEff, int NKolEff) {
+    public Matriks BuatMatriks(int NBrsEff, int NKolEff) {
         Matriks M1 = new Matriks();
-        M1.M = this.M;
         M1.NBrsEff = NBrsEff;
         M1.NKolEff = NKolEff;
 
@@ -136,7 +135,8 @@ public class Matriks {
         int i,j,k;
         float determinan = 1;
 
-        Matriks M1 = BuatMatriks(this, this.NBrsEff, this.NKolEff);
+        Matriks M1 = BuatMatriks(this.NBrsEff, this.NKolEff);
+        M1.M = this.M;
 
         //Copy Matriks
         M1 = CopyMatriks(this, M1);
@@ -204,12 +204,8 @@ public class Matriks {
         float det = 0;
         int sign = 1;
 
-        Matriks M1 = BuatMatriks(this, this.NBrsEff, this.NKolEff);
+        Matriks M1 = BuatMatriks(this.NBrsEff, this.NKolEff);
         M1 = CopyMatriks(this, M1);
-
-        //DEBUG
-        //M1.TulisMatriks();
-        //System.out.println();
 
         // Mengecek kasus sederhana dimana ukuran M 1x1 atau 2x2 (Basis)
         if(NbElmt(M1) == 1) {
@@ -230,7 +226,7 @@ public class Matriks {
 
     public Matriks MinorEntri(int x, int y) {
         // Mengembalikan matriks minor entri saat dipivot pada (x,y)
-        Matriks MMinorEntri = BuatMatriks(this, this.NBrsEff-1, this.NKolEff-1);
+        Matriks MMinorEntri = BuatMatriks(this.NBrsEff-1, this.NKolEff-1);
 
         int m = 0;
 
@@ -246,9 +242,59 @@ public class Matriks {
                 m += 1;
             }
         }
-        //DEBUG
-        //System.out.println();
-        //MMinorEntri.TulisMatriks();
         return MMinorEntri;
     }
+
+    /* ======================== MATRIKS BALIKAN ======================== */
+    public Matriks BuatMatriksIdentitas() {
+        Matriks MIdentitas = new Matriks();
+        MIdentitas.NBrsEff = this.NBrsEff;
+        MIdentitas.NKolEff = this.NKolEff;
+
+        for (int i=0; i < MIdentitas.NBrsEff; i++){
+            for (int j=0; j < MIdentitas.NKolEff; j++){
+                if(i == j){
+                    MIdentitas.M[i][j] = 1;
+                } else {
+                    MIdentitas.M[i][j] = 0;
+                }
+            }
+        }
+        return MIdentitas;
+    }
+
+    public Matriks BuatMatriksAugmented(Matriks M1, Matriks M2) {
+        Matriks MAugmented = new Matriks();
+
+        MAugmented.NBrsEff = M1.NBrsEff;
+        MAugmented.NKolEff = M1.NKolEff + M2.NKolEff;
+
+        for (int i=0; i < M1.NBrsEff; i++){
+            for (int j=0; j < M1.NKolEff; j++){
+                MAugmented.M[i][j] = M1.M[i][j];
+            }
+        }
+        
+        for (int i=0; i < MAugmented.NBrsEff; i++){
+            for (int j=M1.NKolEff; j < MAugmented.NKolEff; j++){
+                MAugmented.M[i][j] = M2.M[i][j-M1.NKolEff];
+            }
+        }
+        return MAugmented;
+   }
+
+   public Matriks BuatMatriksBalikan() {
+        // Metode yang digunakan adalah OBE
+        Matriks MIdentitas = new Matriks();
+        Matriks MAugmented = new Matriks();
+        Matriks MBalikan = new Matriks();
+
+        Matriks M1 = BuatMatriks(this.NBrsEff, this.NKolEff);
+        M1 = CopyMatriks(this, M1);
+
+        MIdentitas = this.BuatMatriksIdentitas();
+        MAugmented = this.BuatMatriksAugmented(M1, MIdentitas);
+
+        return MAugmented;
+   }
 }

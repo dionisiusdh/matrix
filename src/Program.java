@@ -21,5 +21,13 @@ class Program {
 
         float det2 = M2.DeterminanKofaktor();
         System.out.println("Determinan matriks Kofaktor: " + det2);
+
+        // Matriks Balikan
+        Matriks M3 = new Matriks();
+        M3.BacaMatriksTxt("src/test.txt");
+
+        Matriks M3Balikan = M3.BuatMatriksBalikan();
+        System.out.println();
+        M3Balikan.TulisMatriks();
     }
 }
