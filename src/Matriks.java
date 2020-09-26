@@ -382,4 +382,42 @@ public class Matriks {
         }
         return pembagi;
     }
+    public void swapBaris(int baris1, int baris2){
+        //Me-swap baris1 dan baris2
+        float temp;
+        for (int kol=0; kol< this.NKolEff; kol++){
+            temp = this.M[baris1][kol];
+            this.M[baris1][kol] = this.M[baris2][kol];
+            this.M[baris2][kol] = temp;
+        }
+    }
+
+    public void scaleBaris(int barisX, float scaler){
+        //Mengubah elemen barisX, bisa dibagi atau dikali (diatur di parameter scaler);
+        for (int kol=0; kol< this.NKolEff; kol++){
+            this.M[barisX][kol]  = this.M[barisX][kol] * scaler;
+        }
+    }
+
+    public boolean isAllZeroBrs(int barisX){
+        //Mengecek apakah elemen pada barisX semuanya 0 (matriks augmented)
+        int count = 0;
+        for (int kolom=0; kolom<this.NKolEff-1; kolom++ ){
+            if (this.M[barisX][kolom] == 0){
+                count++;
+            }
+        }
+        return (count==this.NKolEff-1);
+    }
+
+    public boolean isAllZeroKol(int kolomX){
+        //Mengecek apakah elemen pada kolomX semuanya 0 (matriks augmented)
+        int count = 0;
+        for (int baris=0; baris<this.NBrsEff-1; baris++ ){
+            if (this.M[baris][kolomX] == 0){
+                count++;
+            }
+        }
+        return (count==this.NBrsEff-1);
+    }
 }
