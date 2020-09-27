@@ -12,7 +12,7 @@ public class Matriks {
     int IdxBrsMax = 99;
     int IdxKolMin = 0;
     int IdxKolMax = 99;
-    int IdxUndef = -999;
+    int IdxUndef = 999;
 
     int NBrsEff;
     int NKolEff;
@@ -423,7 +423,7 @@ public class Matriks {
         //Proses menempatkan baris dengan elemen non-zero paling kecil di kiri
         for (int i = 0; i<this.NBrsEff ; i++) {
             for (int j = 0; j<(this.NBrsEff)-1; j++){
-                if (CariIdxKolPivot(j) > CariIdxKolPivot(j+1))
+                if (CariIdxKolPivot(j) > CariIdxKolPivot(j+1) && ((CariIdxKolPivot(j)!= this.IdxUndef) || (CariIdxKolPivot(j+1) != this.IdxUndef)))
                 {
                     swapBaris(j, j+1);
                 }
@@ -434,9 +434,9 @@ public class Matriks {
         for (int i = 0; i<this.NBrsEff; i++){
             float pembagi = PivotPembagi(i);
             //proses membagi agar elemen non-zero paling kiri bernilai 1
-            for (int j = 0; j<this.NKolEff;j++){
-                this.M[i][j] = (this.M[i][j])/pembagi;
-            }
+            //for (int j = 0; j<this.NKolEff;j++){
+            //    this.M[i][j] = (this.M[i][j])/pembagi;
+            //}
             //proses pengurangan
             for (int k = i+1; k<this.NBrsEff; k++)
             {
@@ -445,6 +445,13 @@ public class Matriks {
                         this.M[k][l] = (this.M[k][l]) - (this.M[i][l]*(PivotPembagi(k)/pembagi));
                     }
                 }
+            }
+        }
+
+        for(int i = 0; i<this.NBrsEff;i++){
+            float pembagi = PivotPembagi(i);
+            for (int j = 0; j<this.NKolEff;j++){
+                this.M[i][j] = this.M[i][j]/pembagi;
             }
         }
     }
