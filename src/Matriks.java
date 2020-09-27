@@ -388,6 +388,38 @@ public class Matriks {
             }
         }
     }
+
+    public void EliminasiGaussV3() {
+        // Menggunakan eliminasi Gauss Jordan untuk membuat matriks echelon
+     
+        //Proses menempatkan baris dengan elemen non-zero paling kecil di kiri
+        for (int i = 0; i<this.NBrsEff ; i++) {
+            for (int j = 0; j<(this.NBrsEff)-1; j++){
+                if (CariIdxKolPivot(j) > CariIdxKolPivot(j+1))
+                {
+                    swapBaris(j, j+1);
+                }
+            }
+        }
+     
+        //melakukan eliminasi 
+        for (int i = 0; i<this.NBrsEff; i++){
+            float pembagi = PivotPembagi(i);
+            //proses membagi agar elemen non-zero paling kiri bernilai 1
+            for (int j = 0; j<this.NKolEff;j++){
+                this.M[i][j] = (this.M[i][j])/pembagi;
+            }
+            //proses pengurangan
+            for (int k = i+1; k<this.NBrsEff; k++)
+            {
+                if (CariIdxKolPivot(k) == CariIdxKolPivot(i)){
+                    for (int l = CariIdxKolPivot(k); l<this.NKolEff;l++){
+                        this.M[k][l] = (this.M[k][l]) - (this.M[i][l]*(PivotPembagi(k)/pembagi));
+                    }
+                }
+            }
+        }
+    }
     
     public void EliminasiGaussJordan() {
         // Menggunakan eliminasi Gauss Jordan untuk membuat matriks echelon tereduksi

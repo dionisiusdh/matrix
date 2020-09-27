@@ -31,7 +31,7 @@ class Program {
         //M3Balikan.TulisMatriks();
 
         System.out.println();
-        M3.EliminasiGauss();
+        M3.EliminasiGaussV3();
         M3.TulisMatriks();
 
         System.out.println();
