@@ -24,14 +24,14 @@ class Program {
 
         // Matriks Balikan
         Matriks M3 = new Matriks();
-        M3.BacaMatriksTxt("src/gauss_test.txt");
+        M3.BacaMatriksTxt("src/gauss_test_5.txt");
 
         Matriks M3Balikan = M3.BuatMatriksBalikan();
         //System.out.println();
         //M3Balikan.TulisMatriks();
 
         System.out.println();
-        M3.EliminasiGauss();
+        M3.EliminasiGaussV3();
         M3.TulisMatriks();
 
         System.out.println();
