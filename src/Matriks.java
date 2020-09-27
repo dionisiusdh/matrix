@@ -352,23 +352,40 @@ public class Matriks {
         
         int kol = 0;
         int pivotPos = -1;
+        int skipped = 0;
+
         for (int i=0; i<this.NBrsEff; i++){
             if (!isAllZeroBrs(i)){
                 System.out.println("MASUK");
                 //This is a pivot column
                 for (int x=i; x<this.NBrsEff-1; x++){
-                    if (this.M[i][kol] == 0){
+                    if (CariIdxKolPivot(x) > CariIdxKolPivot(x+1) && CariIdxKolPivot(x+1)!=this.IdxUndef){ //this.M[i][kol] == 0 &&this.M[i+1][kol]!=0
                         swapBaris(i, x+1);
                     }
+                    else if(CariIdxKolPivot(x+1)==this.IdxUndef){ //jika baris bawahnya 0 semua, taruh bawah langsung
+                        //Proses menaruh baris i+1 ke paling bawah, karena baris seluruhnya 0
+                        int temp = x+1;
+                        for (int j=temp+1; j<this.NBrsEff; j++){
+                            swapBaris(temp, j);
+                            temp = j;
+                        }
+                    }
                 }
-                scaleBaris(i, 1/this.M[i][kol]);
+                //Mencari Pivot matriks / submatriks
                 pivotPos = CariIdxKolPivot(i);
+
+                //yang discale adalah pivot dari matrix
+                System.out.println(this.M[i][pivotPos]);
+                System.out.println("PivotPos: "+ pivotPos);
+
+                scaleBaris(i, 1/this.M[i][pivotPos]);
+                // pivotPos = CariIdxKolPivot(i);
     
                 //replacement operations to create zeros in every position in this column
                 //below the pivot position
                 for (int a=i+1; a<this.NBrsEff; a++){
                     float pengali = this.M[a][pivotPos];
-                    // System.out.println("Pengali: " + pengali);
+                    System.out.println("Pengali: " + pengali);
                     for (int b=i; b<this.NKolEff; b++){
                         if (b>=pivotPos){
                             this.M[a][b] = this.M[a][b] - (pengali*this.M[i][b]);
@@ -378,7 +395,18 @@ public class Matriks {
                 kol = pivotPos + 1; //ini berfungsi untuk mengambil submatrix
             }
             else{
+                // skipped++;
                 System.out.println("Tidak Masuk!");
+                //Jika seluruh barisnya 0, taruh di paling bawah
+                //tapi akibatnya, proses loop ter-skip satu kali untuk i tersebut
+                //misal ketika i=1, seluruh barisnya 0, maka akan masuk ke else ini
+                //kemudian diswap(oke), tapi akibatnya untuk baris i yg udah diswap, dia tidak proses
+                //scaler, OBE, dll.
+                int temp = i;
+                for (int j=temp+1; j<this.NBrsEff; j++){
+                    swapBaris(temp, j);
+                    temp = j;
+                }
             }
         }
         // Perbaiki output -0.0 agar menjadi 0.0
