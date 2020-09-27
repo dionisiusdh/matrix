@@ -55,6 +55,8 @@ public class Matriks {
                 this.M[i][j] = scan.nextInt();
             }
         }
+        
+        scan.close();
     }
 
     public void BacaMatriksTxt(String path){
@@ -74,10 +76,12 @@ public class Matriks {
                     if (baris==0) kolom++;    
                 }
                 baris++;
+                scan.close();
             }
+
             this.NBrsEff = baris;
             this.NKolEff = kolom;
-
+            
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -287,13 +291,25 @@ public class Matriks {
         // Metode yang digunakan adalah OBE
         Matriks MIdentitas = new Matriks();
         Matriks MAugmented = new Matriks();
-        Matriks MBalikan = new Matriks();
 
         Matriks M1 = BuatMatriks(this.NBrsEff, this.NKolEff);
         M1 = CopyMatriks(this, M1);
 
-        MIdentitas = this.BuatMatriksIdentitas();
+        // Buat matriks identitas dari M1 dan concat dengan M1
+        // Sehingga menjadi matriks augmented 
+        MIdentitas = M1.BuatMatriksIdentitas();
         MAugmented = this.BuatMatriksAugmented(M1, MIdentitas);
+
+        // Melakukan eliminasi Gauss Jordan pada matriks augmented
+        // Dengan demikian, bagian "Kanan" matriks augmented telah menjadi solusi inverse
+        MAugmented.EliminasiGaussJordan();
+
+        for(int i=0; i <= MAugmented.NBrsEff; i++) {
+            for(int j=0; j <= MAugmented.NKolEff; j++) {
+                MAugmented.M[i][j] = MAugmented.M[i][j + (MAugmented.NKolEff/2)];
+            }
+        }
+        MAugmented.NKolEff /= 2;
 
         return MAugmented;
     }
@@ -340,7 +356,7 @@ public class Matriks {
         //        }
         //    }
         //}
-        
+        this.susunMatriks();
         // Perbaiki output -0.0 agar menjadi 0.0
         for (int m = 0; m <= this.NBrsEff; m++) {
             for(int n = 0; n <= this.NKolEff; n++) {
@@ -428,11 +444,10 @@ public class Matriks {
         }
     }
 
-    
     public void EliminasiGaussJordan() {
         // Menggunakan eliminasi Gauss Jordan untuk membuat matriks echelon tereduksi
         // Pertama-tama, terapkan eliminasi Gauss pada matrix agar menjadi matriks echelon
-        this.EliminasiGauss();
+        this.EliminasiGaussV3();
         
         // Pencarian baris pivot
         // Retrieve pembagi dan pengali dari matriks untuk dilakukan OBE
@@ -544,6 +559,7 @@ public class Matriks {
         }
         return this.M[i][j];
     }
+
     public void susunMatriks(){
         for (int a =0; a<this.NBrsEff; a++){
             for (int b=0; b<this.NBrsEff-1; b++){

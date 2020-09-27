@@ -1,7 +1,5 @@
 package src;
 
-import java.util.*;
-
 class Program {
     public static void main(String[] args) {
         Matriks M = new Matriks();
@@ -24,18 +22,21 @@ class Program {
 
         // Matriks Balikan
         Matriks M3 = new Matriks();
-        M3.BacaMatriksTxt("src/gauss_test_5.txt");
+        M3.BacaMatriksTxt("src/inverse_test.txt");
 
+        System.out.println("\n Matriks balikan: ");
         Matriks M3Balikan = M3.BuatMatriksBalikan();
+        M3Balikan.TulisMatriks();
+
         //System.out.println();
         //M3Balikan.TulisMatriks();
 
-        System.out.println();
-        M3.EliminasiGaussV3();
-        M3.TulisMatriks();
+        //System.out.println();
+        //M3.EliminasiGaussV3();
+        //M3.TulisMatriks();
 
-        System.out.println();
-        M3Balikan.EliminasiGaussJordan();
-        M3Balikan.TulisMatriks();
+        //System.out.println();
+        //M3.EliminasiGaussJordan();
+        //M3.TulisMatriks();
     }
 }
