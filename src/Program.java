@@ -38,5 +38,7 @@ class Program {
         //System.out.println();
         //M3.EliminasiGaussJordan();
         //M3.TulisMatriks();
+
+        M3Balikan.save();
     }
 }

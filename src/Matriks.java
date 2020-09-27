@@ -82,7 +82,7 @@ public class Matriks {
             this.NBrsEff = baris;
             this.NKolEff = kolom;
             
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -567,6 +567,42 @@ public class Matriks {
                     this.swapBaris(b, b+1);
                 }
             }
+        }
+    }
+
+    /* ======================== SAVE FILE ======================== */
+    public void save() {
+        try {
+            String space = "\t";
+            byte space_byte[] = space.getBytes();
+
+            String enter = "\n";
+            byte enter_byte[] = enter.getBytes();
+
+            Matriks MHsl = this;
+
+            Scanner scan = new Scanner(System.in);
+            System.out.print("Masukkan nama file: ");
+            String nama_file = scan.nextLine();
+            
+            nama_file += ".txt";
+
+            FileOutputStream save_file = new FileOutputStream(("./src/" + nama_file));
+            
+            for (int i=0; i <= MHsl.NBrsEff; i++) {
+                for (int j=0; j <= MHsl.NBrsEff; j++) {
+                    byte value[] = String.valueOf(MHsl.M[i][j]).getBytes();
+                    save_file.write(value);
+                    save_file.write(space_byte);
+                }
+                save_file.write(enter_byte);
+            }
+            
+            scan.close();
+            save_file.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
