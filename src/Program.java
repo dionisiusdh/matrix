@@ -24,7 +24,7 @@ class Program {
 
         // Matriks Balikan
         Matriks M3 = new Matriks();
-        M3.BacaMatriksTxt("src/gauss_test.txt");
+        M3.BacaMatriksTxt("src/gauss_test_5.txt");
 
         Matriks M3Balikan = M3.BuatMatriksBalikan();
         //System.out.println();

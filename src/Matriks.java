@@ -423,7 +423,7 @@ public class Matriks {
         //Proses menempatkan baris dengan elemen non-zero paling kecil di kiri
         for (int i = 0; i<this.NBrsEff ; i++) {
             for (int j = 0; j<(this.NBrsEff)-1; j++){
-                if (CariIdxKolPivot(j) > CariIdxKolPivot(j+1) && ((CariIdxKolPivot(j)!= this.IdxUndef) || (CariIdxKolPivot(j+1) != this.IdxUndef)))
+                if (CariIdxKolPivot(j) > CariIdxKolPivot(j+1))
                 {
                     swapBaris(j, j+1);
                 }
@@ -433,17 +433,20 @@ public class Matriks {
         //melakukan eliminasi 
         for (int i = 0; i<this.NBrsEff; i++){
             float pembagi = PivotPembagi(i);
-            //proses membagi agar elemen non-zero paling kiri bernilai 1
-            //for (int j = 0; j<this.NKolEff;j++){
-            //    this.M[i][j] = (this.M[i][j])/pembagi;
-            //}
-            //proses pengurangan
-            for (int k = i+1; k<this.NBrsEff; k++)
+        
+            for (int j = i+1; j<this.NBrsEff; j++)
             {
-                if (CariIdxKolPivot(k) == CariIdxKolPivot(i)){
-                    for (int l = CariIdxKolPivot(k); l<this.NKolEff;l++){
-                        this.M[k][l] = (this.M[k][l]) - (this.M[i][l]*(PivotPembagi(k)/pembagi));
+                float pembagi2 = PivotPembagi(j);
+                if (CariIdxKolPivot(j) == CariIdxKolPivot(i)){
+                    for (int l = CariIdxKolPivot(j); l<this.NKolEff;l++){
+                        this.M[j][l] = (this.M[j][l]) - (this.M[i][l]*(pembagi2/pembagi));
                     }
+                }
+            }
+            for (int j = i+1; j<(this.NBrsEff)-1; j++){
+                if (CariIdxKolPivot(j) > CariIdxKolPivot(j+1))
+                {
+                    swapBaris(j, j+1);
                 }
             }
         }
@@ -452,9 +455,11 @@ public class Matriks {
             float pembagi = PivotPembagi(i);
             for (int j = 0; j<this.NKolEff;j++){
                 this.M[i][j] = this.M[i][j]/pembagi;
+                this.M[i][j] = PerbaikiNol(i, j);
             }
         }
     }
+
     
     public void EliminasiGaussJordan() {
         // Menggunakan eliminasi Gauss Jordan untuk membuat matriks echelon tereduksi
