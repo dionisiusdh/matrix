@@ -3,6 +3,70 @@ package src;
 public class SPL extends Matriks {
     // Menyelesaikan sistem persamaan linear dengan berbagai metode
 
+    /* ======================== CEK SOLUSI ======================== */
+    public boolean isSolutionExist() {
+        // Mengecek apakah sebuah matriks SPL memiliki solusi
+        boolean ada_solusi = true;
+
+        int i = this.NBrsEff - 1;
+
+        while(ada_solusi && i >= 0){
+            int j = 0;
+            boolean found = false;
+
+            while(!found && j <= this.NKolEff) {
+                if(this.M[i][j] != 0 && j != this.NKolEff - 1) {
+                    found = true;
+                }
+                j += 1;
+            }
+
+            if(!found) {
+                boolean all_zero_brs = false;
+
+                for(int k = 0; k < this.NBrsEff; k++){
+                    if(this.isAllZeroBrs(k)) {
+                        all_zero_brs = true;
+                    }
+                }
+
+                if(!all_zero_brs) {
+                    ada_solusi = false;
+                }
+            }
+
+            i -= 1;
+        }
+
+        return ada_solusi;
+    }
+
+    public boolean isManySolution() {
+        // Cek apakah matriks memiliki banyak solusi (tak terhingga solusi)
+        // Keadaan ini dicapai saat ada baris yang memenuhi isAllZeroBrs
+
+        boolean all_zero_brs = false;
+
+        for(int i = 0; i < this.NBrsEff; i++){
+            if(this.isAllZeroBrs(i)) {
+                all_zero_brs = true;
+            }
+        }
+
+        return all_zero_brs;
+    }
+
+    public boolean isSingleSolution() {
+        // Mengecek apakah sebuah matriks memiliki solusi tunggal
+        boolean single_solution = false;
+
+        if(!this.isManySolution() && this.isSolutionExist()) {
+            single_solution = true;
+        }
+
+        return single_solution;
+    }
+
     public float[] BackSubstitution(){
         // Backward Substition untuk Gaussian Elimination
         // Masih cuman work untuk yg solusi tunggal
