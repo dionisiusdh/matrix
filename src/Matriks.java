@@ -469,6 +469,22 @@ public class Matriks {
         }
     }
 
+    public float[] BackSubstitution(){
+        //Backward Substition untuk Gaussian Elimination
+        // Masih cuman work untuk yg solusi tunggal
+        float[] solX = new float[this.NBrsEff];
+        float temp;
+        for (int i=this.NBrsEff-1; i>=0; i--){
+            temp =  this.M[i][this.NKolEff-1];
+            for (int j=this.NKolEff-2; j>i; j--){
+                temp -= solX[j] * this.M[i][j];
+            }
+            solX[i] = temp/this.M[i][i];
+            System.out.println("SolX: "+solX[i]);
+        }
+        return solX;
+    }
+
    /* ======================== FUNGSI PEMBANTU ======================== */
     public boolean IsBrsPivot(int brs) {
         // Cek apakah sebuah baris memiliki pivot (elemen yang != 0)
