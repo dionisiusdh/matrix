@@ -4,6 +4,40 @@ public class SPL extends Matriks {
     // Menyelesaikan sistem persamaan linear dengan berbagai metode
 
     /* ======================== CEK SOLUSI ======================== */
+    public void splGauss() {
+        SPL M1 = this;
+
+        M1.EliminasiGauss();
+
+        if(!M1.isSolutionExist()) {
+            System.out.println("SPL tidak memiliki solusi.");
+        } else {
+            
+        }
+    }
+
+    public void splGaussJordan() {
+        SPL M1 = this;
+
+        M1.EliminasiGauss();
+
+        if(!M1.isSolutionExist()) {
+            System.out.println("SPL tidak memiliki solusi.");
+        } else if (M1.isSingleSolution()) {
+            M1.EliminasiGaussJordan();
+
+            int counter = 1;
+
+            for(int i=0; i < this.NBrsEff; i++) {
+                System.out.println("x" + counter + " = " + M1.M[i][NKolEff-1]);
+                counter += 1;
+            } 
+        } else {
+            // Banyak solusi
+        }
+    }
+
+    /* ======================== CEK SOLUSI ======================== */
     public boolean isSolutionExist() {
         // Mengecek apakah sebuah matriks SPL memiliki solusi
         boolean ada_solusi = true;

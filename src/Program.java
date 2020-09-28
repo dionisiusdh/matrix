@@ -12,6 +12,17 @@ class Program {
         M.TulisMatriks();
         System.out.println();
 
+        // DEBUG SPL
+        SPL M3 = new SPL();
+        M3.BacaMatriksTxt("src/spl_test.txt");
+        
+        M3.splGaussJordan();
+
+        //System.out.println("Apakah ada solusi? " + M3.isSolutionExist());
+        //System.out.println("Apakah banyak solusi? " + M3.isManySolution());
+        //System.out.println("Apakah solusi tunggal? " + M3.isSingleSolution());  
+    
+        /* DEBUG DETERMINAN
         //Prekondisi M adalah square matrix
         float det = M.DeterminanOBE();
         System.out.println("Determinan matriks OBE: " + det);
@@ -19,32 +30,16 @@ class Program {
 
         float det2 = M2.DeterminanKofaktor();
         System.out.println("Determinan matriks Kofaktor: " + det2);
+        */
 
+        /*DEBUG INVERSE
         // Matriks Balikan
-        SPL M3 = new SPL();
-        M3.BacaMatriksTxt("src/spl_test.txt");
-        M3.EliminasiGauss();
-        M3.TulisMatriks();
-        
-        System.out.println("Apakah ada solusi? " + M3.isSolutionExist());
-        System.out.println("Apakah banyak solusi? " + M3.isManySolution());
-        System.out.println("Apakah solusi tunggal? " + M3.isSingleSolution());
-        //System.out.println("\n Matriks balikan: ");
-        //Matriks M3Balikan = M3.BuatMatriksBalikan();
-        //M3Balikan.TulisMatriks();
+        Matriks M3 = new Matriks();
+        M3.BacaMatriksTxt("src/inverse_test.txt");
 
-        //System.out.println();
-        //M3Balikan.TulisMatriks();
-
-        //System.out.println();
-        //M3.EliminasiGaussV3();
-        //M3.TulisMatriks();
-
-        //System.out.println();
-        //M3.EliminasiGaussJordan();
-        //M3.TulisMatriks();
-
-        //M3Balikan.save();
-
+        System.out.println("\n Matriks balikan: ");
+        Matriks M3Balikan = M3.BuatMatriksBalikan();
+        M3Balikan.TulisMatriks();
+        */
     }
 }
