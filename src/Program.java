@@ -39,6 +39,7 @@ class Program {
         //M3.EliminasiGaussJordan();
         //M3.TulisMatriks();
 
-        M3Balikan.save();
+        //M3Balikan.save();
+
     }
 }
