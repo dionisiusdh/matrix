@@ -18,7 +18,7 @@ class Program {
         System.out.println("Matriks yang anda masukkan: ");
         M3.TulisMatriks();
 
-        M3.menuSPL(2);
+        M3.menuSPL(4);
 
         //System.out.println("Apakah ada solusi? " + M3.isSolutionExist());
         //System.out.println("Apakah banyak solusi? " + M3.isManySolution());

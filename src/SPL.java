@@ -20,13 +20,15 @@ public class SPL extends Matriks {
                 break;
             case 4:
                 System.out.println("Penyelesaian SPL menggunakan kaidah Cramer: ");
-                //this.splGauss();
+                this.splCramer();
                 break;
         }
     }
 
     /* ======================== METODE PENYELESAIAN ======================== */
     public void splGauss() {
+        //Mencari solusi SPL menggunakan metode eliminasi Gauss
+        //SPL dalam bentuk matriks augmented 
         SPL M1 = this;
 
         M1.EliminasiGauss();
@@ -39,6 +41,8 @@ public class SPL extends Matriks {
     }
 
     public void splGaussJordan() {
+        //Mencari solusi SPL menggunakan metode eliminasi Gauss Jordan
+        //SPL dalam bentuk matriks augmented 
         SPL M1 = this;
 
         M1.EliminasiGauss();
@@ -60,6 +64,8 @@ public class SPL extends Matriks {
     }
 
     public void splMatriksBalikan() {
+        //Mencari solusi SPL menggunakan metode matriks balikan
+        //SPL dalam bentuk matriks augmented 
         Matriks MKoef = this.Koefisien();
         Matriks MKons = this.Konstanta();
 
@@ -73,20 +79,51 @@ public class SPL extends Matriks {
                 Matriks MBalikan = MKoef.BuatMatriksBalikan();
                 Matriks MHsl = MBalikan.KaliMatriks(MKons);
 
-                MBalikan.TulisMatriks();
-                System.out.println();
-
-                MKons.TulisMatriks();
-                System.out.println();
-
-                MHsl.TulisMatriks();
-                System.out.println();
-
                 for (int i = 0; i < MHsl.NBrsEff; i++) {
                     System.out.println("x" + (i+1) + " = " + MHsl.M[i][0]);
                 }
             }
         }
+    }
+
+    public float[] splCramer(){
+        //Mencari solusi SPL menggunakan metode cramer
+        //SPL dalam bentuk matriks augmented 
+        float [] solX = new float[(this.NKolEff) - 1];
+
+        Matriks temp, temp1;
+        float d,dx;
+        temp = BuatMatriks(this.NBrsEff, this.NKolEff - 1);
+        //mengisi temp dengan matriks koefisien variabel
+        for (int i = 0 ; i<this.NBrsEff;i++){
+            for (int j = 0; j<(this.NKolEff) -1 ; j++){
+                temp.M[i][j] = this.M[i][j];
+            }
+        }
+        
+        d = temp.DeterminanOBE();
+        if (d == 0){
+            System.out.println("Solusi Tidak ada");
+        }
+        else{
+            temp1 = BuatMatriks(this.NBrsEff, this.NKolEff - 1);
+            for (int i = 0; i<temp1.NKolEff; i++){
+                for (int j = 0; j<this.NBrsEff;j++){
+                    int kolom = 0;
+                    for (int k = 0; k<this.NKolEff;k++){
+                        if (k!=i){
+                            temp1.M[j][kolom] = this.M[j][k];
+                            kolom+=1;
+                        }
+                    }
+                }
+                dx = temp1.DeterminanKofaktor();
+                solX[i] = dx/d;
+                int counter = i+1;
+                System.out.println("X" + counter +" : " + solX[i]);
+            }
+        }
+        return solX;
     }
 
     /* ======================== CEK SOLUSI ======================== */
@@ -165,44 +202,6 @@ public class SPL extends Matriks {
             }
             solX[i] = temp/this.M[i][i];
             System.out.println("SolX: "+solX[i]);
-        }
-        return solX;
-    }
-
-    public float[] Cramer(){
-        //Mencari solusi SPL menggunakan metode cramer
-        //SPL dalam bentuk matriks augmented 
-        float [] solX = new float[(this.NKolEff) - 1];
-        Matriks temp, temp1;
-        float d,dx;
-        temp = BuatMatriks(this.NBrsEff, this.NKolEff - 1);
-        //mengisi temp dengan matriks koefisien variabel
-        for (int i = 0 ; i<this.NBrsEff;i++){
-            for (int j = 0; j<(this.NKolEff) -1 ; j++){
-                temp.M[i][j] = this.M[i][j];
-            }
-        }
-        d = temp.DeterminanOBE();
-        if (d == 0){
-            System.out.println("Solusi Tidak ada");
-        }
-        else{
-            temp1 = BuatMatriks(this.NBrsEff, this.NKolEff - 1);
-            for (int i = 0; i<temp1.NKolEff; i++){
-                for (int j = 0; j<this.NBrsEff;j++){
-                    int kolom = 0;
-                    for (int k = 0; k<this.NKolEff;k++){
-                        if (k!=i){
-                            temp1.M[j][kolom] = this.M[j][k];
-                            kolom+=1;
-                        }
-                    }
-                }
-                dx = temp1.DeterminanKofaktor();
-                solX[i] = dx/d;
-                int counter = i+1;
-                System.out.println("X" + counter +" : " + solX[i]);
-            }
         }
         return solX;
     }
