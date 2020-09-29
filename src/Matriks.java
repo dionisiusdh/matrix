@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.*;
 import java.io.*;
+import java.lang.Math;
 
 public class Matriks {
     /* Definisi ADT Matriks */
@@ -509,6 +510,101 @@ public class Matriks {
                 }
             }
         }
+    }
+
+    public void Interpolasi(){
+ 
+        System.out.println("1. Masukan titik dari keyboard");
+        System.out.println("2. Masukan titik dari file");
+        System.out.print("Pilihan Anda: ");
+        Scanner scan = new Scanner(System.in);
+        int tipeInput = scan.nextInt();
+
+        Matriks Interpolasi = new Matriks();
+
+        if (tipeInput==1){
+            int N;
+            System.out.print("Masukkan jumlah titik yang akan diinterpolasi: ");
+            N = scan.nextInt();
+            Interpolasi = Interpolasi.BuatMatriks(N, N+1);
+
+            for (int i=0; i<N; i++){
+                System.out.print("x" + (i+1) +", y" + (i+1) + ": ");
+                double x = scan.nextDouble();
+                double y = scan.nextDouble();
+                for (int j=0; j<N; j++){
+                    if (j==0){
+                        Interpolasi.M[i][j] = 1;
+                    }
+                    else{
+                    double pangkat = j;
+                    Interpolasi.M[i][j] = (float) Math.pow(x, pangkat);
+                    }
+                Interpolasi.M[i][N] = (float) y;
+                }
+            }
+        }
+
+        else if(tipeInput==2){
+            System.out.print("Masukkan path file .txt: ");
+            Scanner in = new Scanner(System.in);
+            String pathTxt = in.nextLine();
+            try{
+                BufferedReader br = new BufferedReader(new FileReader(new File(pathTxt))); 
+                String line;
+                int baris = 0;
+                while ((line = br.readLine()) != null){
+                    Scanner scin = new Scanner(line);
+                    while (scin.hasNextDouble()){
+                        double trash = scin.nextDouble();
+                    }
+                    baris++;
+                }
+
+                BufferedReader br2 = new BufferedReader(new FileReader(new File(pathTxt))); 
+                int brs = 0;
+                while ((line = br2.readLine()) != null){
+                    Scanner scon = new Scanner(line);
+                    while (scon.hasNextDouble()){
+                        double x = scon.nextDouble();
+                        double y = scon.nextDouble();
+                        for (int kol=0; kol<baris; kol++){
+                            if (kol==0){
+                                Interpolasi.M[brs][kol] = 1;
+                            }
+                            else{
+                                double pangkat = kol;
+                                Interpolasi.M[brs][kol] = (float) Math.pow(x, pangkat);
+                            }
+                        }
+                        Interpolasi.M[brs][baris] = (float) y;
+                    }
+                    brs++;
+                }
+                Interpolasi.NBrsEff = baris;
+                Interpolasi.NKolEff = baris+1;
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        Interpolasi.EliminasiGaussJordan();
+        
+        System.out.print("Masukkan titik yang akan ditaksir: ");
+        double taksir = scan.nextDouble();
+
+        double sum = 0;
+        for(int i=0; i < Interpolasi.NBrsEff; i++) {
+            double pangkat = i;
+            if (i==0){
+                sum += Interpolasi.M[i][Interpolasi.NKolEff-1];
+            }
+            else{
+                sum = sum + Interpolasi.M[i][Interpolasi.NKolEff-1] * Math.pow(taksir, pangkat);
+            } 
+        }
+        System.out.println("Hasil taksiran: ");
+        System.out.println("P"+ (Interpolasi.NBrsEff-1) + "(" + taksir +") = " + sum );
     }
 
    /* ======================== FUNGSI PEMBANTU ======================== */
