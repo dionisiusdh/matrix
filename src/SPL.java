@@ -125,6 +125,15 @@ public class SPL extends Matriks {
         }
         return solX;
     }
+    public void copySPLMatriks(SPL a, Matriks B){
+        for (int i=0; i<B.NBrsEff; i++){
+            for (int j=0; j<B.NKolEff; j++){
+                a.M[i][j] = B.M[i][j];
+            }
+        }
+        a.NBrsEff = B.NBrsEff;
+        a.NKolEff = B.NKolEff;
+    }
 
     /* ======================== CEK SOLUSI ======================== */
     public boolean isSolutionExist() {

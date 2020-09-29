@@ -56,7 +56,6 @@ public class Matriks {
             }
         }
         
-        scan.close();
     }
 
     public void BacaMatriksTxt(String path){
@@ -76,7 +75,6 @@ public class Matriks {
                     if (baris==0) kolom++;    
                 }
                 baris++;
-                scan.close();
             }
 
             this.NBrsEff = baris;
@@ -417,10 +415,6 @@ public class Matriks {
         int pivotPos = -1;
 
         //Menyusun matrix
-        this.susunMatriks();
-        System.out.println("Setelah disusun: ");
-        this.TulisMatriks();
-        System.out.println();
 
         for (int i=0; i<this.NBrsEff; i++){
             if (!isAllZeroBrs(i)){
@@ -647,7 +641,7 @@ public class Matriks {
                 save_file.write(enter_byte);
             }
             
-            scan.close();
+            // scan.close();
             save_file.close();
 
         } catch (Exception e) {
