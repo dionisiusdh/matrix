@@ -101,7 +101,7 @@ public class SPL extends Matriks {
             }
         }
         
-        d = temp.DeterminanOBE();
+        d = temp.DeterminanKofaktor();
         if (d == 0){
             System.out.println("Solusi Tidak ada");
         }
@@ -109,11 +109,12 @@ public class SPL extends Matriks {
             temp1 = BuatMatriks(this.NBrsEff, this.NKolEff - 1);
             for (int i = 0; i<temp1.NKolEff; i++){
                 for (int j = 0; j<this.NBrsEff;j++){
-                    int kolom = 0;
-                    for (int k = 0; k<this.NKolEff;k++){
+                    for (int k = 0; k<temp1.NKolEff;k++){
                         if (k!=i){
-                            temp1.M[j][kolom] = this.M[j][k];
-                            kolom+=1;
+                            temp1.M[j][k] = this.M[j][k];
+                        }
+                        else{
+                            temp1.M[j][k] = this.M[j][this.NKolEff -1];
                         }
                     }
                 }
