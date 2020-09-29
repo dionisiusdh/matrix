@@ -5,7 +5,7 @@ class Program {
         Matriks M = new Matriks();
         Matriks M2 = new Matriks();
 
-        M.BacaMatriksTxt("src/test.txt");
+        M.BacaMatriksTxt("src/gauss_test.txt");
         M2.BacaMatriksTxt("src/test.txt");
         // M.BacaMatriks();
         System.out.println("Matriks yang anda masukkan: ");
@@ -17,6 +17,9 @@ class Program {
         M3.BacaMatriksTxt("src/spl_test.txt");
         
         M3.splGaussJordan();
+
+
+        M3.Cramer();
 
         //System.out.println("Apakah ada solusi? " + M3.isSolutionExist());
         //System.out.println("Apakah banyak solusi? " + M3.isManySolution());

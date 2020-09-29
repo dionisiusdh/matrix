@@ -116,4 +116,42 @@ public class SPL extends Matriks {
         }
         return solX;
     }
+
+    public float[] Cramer(){
+        //Mencari solusi SPL menggunakan metode cramer
+        //SPL dalam bentuk matriks augmented 
+        float [] solX = new float[(this.NKolEff) - 1];
+        Matriks temp, temp1;
+        float d,dx;
+        temp = BuatMatriks(this.NBrsEff, this.NKolEff - 1);
+        //mengisi temp dengan matriks koefisien variabel
+        for (int i = 0 ; i<this.NBrsEff;i++){
+            for (int j = 0; j<(this.NKolEff) -1 ; j++){
+                temp.M[i][j] = this.M[i][j];
+            }
+        }
+        d = temp.DeterminanOBE();
+        if (d == 0){
+            System.out.println("Solusi Tidak ada");
+        }
+        else{
+            temp1 = BuatMatriks(this.NBrsEff, this.NKolEff - 1);
+            for (int i = 0; i<temp1.NKolEff; i++){
+                for (int j = 0; j<this.NBrsEff;j++){
+                    int kolom = 0;
+                    for (int k = 0; k<this.NKolEff;k++){
+                        if (k!=i){
+                            temp1.M[j][kolom] = this.M[j][k];
+                            kolom+=1;
+                        }
+                    }
+                }
+                dx = temp1.DeterminanKofaktor();
+                solX[i] = dx/d;
+                int counter = i+1;
+                System.out.println("X" + counter +" : " + solX[i]);
+            }
+        }
+        return solX;
+    }
 }
