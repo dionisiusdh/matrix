@@ -103,6 +103,22 @@ public class Matriks {
     }
 
     /* ======================== OPERASI MATRIKS ======================== */
+    public Matriks KaliMatriks(Matriks M) {
+        Matriks MHsl = new Matriks();
+        MHsl.NBrsEff = this.NBrsEff;
+        MHsl.NKolEff = M.NKolEff;
+
+        for (int i = 0; i <= this.NBrsEff; i++) {
+            for (int j = 0; j <= M.NKolEff; j++) {
+                for (int k = 0; k <= this.NKolEff; k++) {
+                    MHsl.M[i][j] += this.M[i][k] * M.M[k][j];
+                }
+            }
+        }
+
+        return MHsl;
+    }
+    
     public Matriks CopyMatriks(Matriks M, Matriks MHsl) {
         for (int x=0; x < M.NBrsEff; x++){
             for (int y=0; y < M.NKolEff; y++){
@@ -130,6 +146,10 @@ public class Matriks {
         int temp = this.NBrsEff;
         this.NBrsEff = this.NKolEff;
         this.NKolEff = temp;
+    }
+
+    public boolean IsPersegi() {
+        return (this.NBrsEff == this.NKolEff);
     }
 
     /* ======================== DETERMINAN ======================== */
@@ -285,6 +305,34 @@ public class Matriks {
             }
         }
         return MAugmented;
+    }
+
+    public Matriks Koefisien() {
+        Matriks MKoef = new Matriks();
+
+        MKoef.NBrsEff = this.NBrsEff;
+        MKoef.NKolEff = this.NKolEff - 1;
+
+        for (int i = 0; i <= MKoef.NBrsEff; i++) {
+            for (int j = 0; j <= MKoef.NKolEff; j++) {
+                MKoef.M[i][j] = this.M[i][j];
+            }
+        }
+
+        return MKoef;
+    }
+
+    public Matriks Konstanta() {
+        Matriks MKons = new Matriks();
+
+        MKons.NBrsEff = this.NBrsEff;
+        MKons.NKolEff = 1;
+
+        for (int i = 0; i <= MKons.NBrsEff; i++) {
+            MKons.M[i][0] = this.M[i][this.NKolEff-1];
+        }
+
+        return MKons;
     }
 
     public Matriks BuatMatriksBalikan() {

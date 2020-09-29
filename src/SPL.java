@@ -3,7 +3,29 @@ package src;
 public class SPL extends Matriks {
     // Menyelesaikan sistem persamaan linear dengan berbagai metode
 
-    /* ======================== CEK SOLUSI ======================== */
+    /* ======================== MENU ======================== */
+    public void menuSPL(int metode) {
+        switch (metode) {
+            case 1:
+                System.out.println("Penyelesaian SPL menggunakan eliminasi Gauss: ");
+                this.splGauss();
+                break;
+            case 2:
+                System.out.println("Penyelesaian SPL menggunakan eliminasi Gauss-Jordan: ");
+                this.splGaussJordan();
+                break;
+            case 3:
+                System.out.println("Penyelesaian SPL menggunakan matriks balikan: ");
+                this.splMatriksBalikan();
+                break;
+            case 4:
+                System.out.println("Penyelesaian SPL menggunakan kaidah Cramer: ");
+                //this.splGauss();
+                break;
+        }
+    }
+
+    /* ======================== METODE PENYELESAIAN ======================== */
     public void splGauss() {
         SPL M1 = this;
 
@@ -34,6 +56,36 @@ public class SPL extends Matriks {
             } 
         } else {
             // Banyak solusi
+        }
+    }
+
+    public void splMatriksBalikan() {
+        Matriks MKoef = this.Koefisien();
+        Matriks MKons = this.Konstanta();
+
+        if(!MKoef.IsPersegi()) {
+            System.out.println("Matriks koefisien bukan matriks persegi, sehingga tidak dapat diselesaikan dengan metode matriks balikan.");
+        } else {
+            float det = MKoef.DeterminanKofaktor();
+            if (det == 0) {
+                System.out.println("Determinan matriks koefisien bernilai 0, sehingga tidak dapat diselesaikan dengan metode matriks balikan.");
+            } else {
+                Matriks MBalikan = MKoef.BuatMatriksBalikan();
+                Matriks MHsl = MBalikan.KaliMatriks(MKons);
+
+                MBalikan.TulisMatriks();
+                System.out.println();
+
+                MKons.TulisMatriks();
+                System.out.println();
+
+                MHsl.TulisMatriks();
+                System.out.println();
+
+                for (int i = 0; i < MHsl.NBrsEff; i++) {
+                    System.out.println("x" + (i+1) + " = " + MHsl.M[i][0]);
+                }
+            }
         }
     }
 
