@@ -226,7 +226,7 @@ public class Matriks {
 
     public float DeterminanKofaktor() {
         float det = 0;
-        int sign = 1;
+        float sign = 1;
 
         Matriks M1 = BuatMatriks(this.NBrsEff, this.NKolEff);
         M1 = CopyMatriks(this, M1);
@@ -234,7 +234,7 @@ public class Matriks {
         // Mengecek kasus sederhana dimana ukuran M 1x1 atau 2x2 (Basis)
         if(NbElmt(M1) == 1) {
             return this.M[0][0];
-        } else if (NbElmt(M1) == 2) {
+        } else if (NbElmt(M1) == 4) {
             return (this.M[0][0] * this.M[1][1] - this.M[0][1] * this.M[1][0]);
         } else { 
             // Ukuran M >= 3x3
