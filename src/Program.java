@@ -1,4 +1,4 @@
-package src;
+package src; // Kalo dipake jadi gabisa dicompile, comment dlu sebelum compile pakai javac
 
 import java.util.*;
 
@@ -6,12 +6,12 @@ class Program {
     public static void main(String[] args) throws InterruptedException{
         // DEBUG SPL
         SPL M3 = new SPL();
-        M3.BacaMatriksTxt("src/spl_test2.txt");
+        M3.BacaMatriksTxt("src/spl_test2.txt"); // ./spl_test2.txt pas compile
         System.out.println("Matriks yang anda masukkan: ");
         
         M3.EliminasiGaussJordan();
         M3.TulisMatriks();
-        M3.menuSPL(3);
+        M3.menuSPL(2);
     }
 }
         //System.out.println("Apakah ada solusi? " + M3.isSolutionExist());

@@ -1,4 +1,4 @@
-package src;
+package src; // Kalo dipake jadi gabisa dicompile, comment dlu sebelum compile pakai javac
 
 import java.io.File;
 import java.io.FileReader;

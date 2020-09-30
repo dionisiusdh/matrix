@@ -1,4 +1,4 @@
-package src;
+package src; // Kalo dipake jadi gabisa dicompile, comment dlu sebelum compile pakai javac
 
 public class SPL extends Matriks {
     // Menyelesaikan sistem persamaan linear dengan berbagai metode
@@ -104,6 +104,10 @@ public class SPL extends Matriks {
                 }
             }
 
+            for (int i = 0; i < M1.NKolEff; i++) {
+                System.out.println(varBebas[i]);
+            }
+            System.out.println();
             // Output hasil dalam bentuk string
             String output = "";
 
