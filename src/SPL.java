@@ -36,7 +36,7 @@ public class SPL extends Matriks {
         if(!M1.isSolutionExist()) {
             System.out.println("SPL tidak memiliki solusi.");
         } else {
-            
+            // Ada solusi
         }
     }
 
@@ -45,21 +45,109 @@ public class SPL extends Matriks {
         //SPL dalam bentuk matriks augmented 
         SPL M1 = this;
 
-        M1.EliminasiGauss();
+        M1.EliminasiGaussJordan();
 
         if(!M1.isSolutionExist()) {
             System.out.println("SPL tidak memiliki solusi.");
         } else if (M1.isSingleSolution()) {
             M1.EliminasiGaussJordan();
-
+            
             int counter = 1;
 
             for(int i=0; i < this.NBrsEff; i++) {
-                System.out.println("x" + counter + " = " + M1.M[i][NKolEff-1]);
+                System.out.println("x" + counter + " = " + M1.M[i][this.NKolEff-1]);
                 counter += 1;
             } 
         } else {
-            // Banyak solusi
+            // Cek variabel bebas dan leading one / satu utama yang ada pada matriks
+            int [] varBebas = new int[M1.NKolEff];
+            varBebas[0] = 0;
+
+            for (int j = 0; j < M1.NKolEff; j++) {
+                int count_varBebas = 0;
+                boolean leadingOne = false;
+
+                for (int i = 0; i < M1.NBrsEff; i++) {
+                    if (M1.M[i][j] != 0 && M1.M[i][j] != 1) {
+                        count_varBebas += 1;
+                    }
+                    if (!leadingOne && M1.M[i][j] == 1) {
+                        leadingOne = true;
+                    }
+                }
+                if (count_varBebas > 0 || (!leadingOne && count_varBebas == 0)) {
+                    varBebas[j] = 1; 
+                } else {
+                    varBebas[j] = 0;
+                }
+            }
+
+            // Memanipulasi matriks agar menjadi sebuah matriks persegi (jika bukan)
+            while (!M1.Koefisien().IsPersegi()) {
+                M1.NBrsEff += 1;
+                for (int j = 0; j < M1.NKolEff; j++) {
+                    M1.M[M1.NBrsEff=1][j] = 0;
+                }
+            }
+
+            // Mengurutkan matriks berdasarkan posisi variabel
+            int [] IdxKolPivot = new int[M1.NBrsEff+1];
+            for (int i = 0; i < M1.NBrsEff; i++) {
+                IdxKolPivot[i] = M1.CariIdxKolPivot(i);
+            } 
+            for (int i = 0; i < IdxKolPivot.length-1; i++) {
+                if (IdxKolPivot[i] != i && IdxKolPivot[i] != M1.IdxUndef) {
+                    int temp = IdxKolPivot[i];
+                    IdxKolPivot[i] = IdxKolPivot[i+1];
+                    IdxKolPivot[i+1] = temp;
+                    M1.swapBaris(i, i+1);
+                }
+            }
+
+            // Output hasil dalam bentuk string
+            String output = "";
+
+            for (int i=0; i < M1.NBrsEff; i++) {
+                boolean constant = false;
+
+                if (i == M1.NBrsEff-1) {
+                    output += "x" + (i+1) + " = k, untuk k ∊ R ";
+                } else {
+                    output += "x" + (i+1) + " = ";
+                }
+
+                if (M1.M[i][M1.NKolEff-1] != 0) {
+                    output += M1.M[i][M1.NKolEff-1] + " ";
+                    constant = true;
+                }
+
+                for (int j = 0; j < M1.NKolEff; j++) {
+                    if (constant && varBebas[j] == 1 && M1.M[i][j] != 0) {
+                        if (M1.M[i][j] != 0) {
+                            if (M1.M[i][j] != -1) {
+                                output += " + (" + (-1)*M1.M[i][j-1] + ")x" + (j) + " ";
+                            } else {
+                                output += " +x" + (j) + " ";
+                            }
+                        }
+                    } else if (!constant && varBebas[j] == 1 && M1.M[i][j-1] != 0) {
+                        if (M1.M[i][j] != 0) {
+                            if (M1.M[i][j] != -1) {
+                                output += "(" + (-1)*M1.M[i][j] + ")x" + (j) + " ";
+                            } else {
+                                output += " x" + (j) + " ";
+                            }
+                        }
+                    }
+
+                    if (varBebas[j] == 1 && i == j) {
+                        output += "x" + (j);
+                    }
+                }
+                output += '\n';
+            }
+            System.out.println(output);
+            output = "";
         }
     }
 

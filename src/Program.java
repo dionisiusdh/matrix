@@ -1,35 +1,35 @@
 package src;
 
 import java.util.*;
-// import java.io.*;
 
 class Program {
     public static void main(String[] args) throws InterruptedException{
-        //Matriks M = new Matriks();
-        //Matriks M2 = new Matriks();
-
-        //M.BacaMatriksTxt("src/gauss_test.txt");
-        //M2.BacaMatriksTxt("src/test.txt");
-        // M.BacaMatriks();
-        //System.out.println("Matriks yang anda masukkan: ");
-        //M.TulisMatriks();
-        //System.out.println();
-
         // DEBUG SPL
         SPL M3 = new SPL();
-        M3.BacaMatriksTxt("src/spl_test.txt");
+        M3.BacaMatriksTxt("src/spl_test2.txt");
         System.out.println("Matriks yang anda masukkan: ");
+        
+        M3.EliminasiGaussJordan();
         M3.TulisMatriks();
-
-        M3.menuSPL(4);
-
+        M3.menuSPL(3);
+    }
+}
         //System.out.println("Apakah ada solusi? " + M3.isSolutionExist());
         //System.out.println("Apakah banyak solusi? " + M3.isManySolution());
         //System.out.println("Apakah solusi tunggal? " + M3.isSingleSolution());  
-        
-        //M3.Cramer();
 
+        /* =========================================== DEBUG =======================================*/
         /* DEBUG METODE MATRIKS
+        Matriks M = new Matriks();
+        Matriks M2 = new Matriks();
+
+        M.BacaMatriksTxt("src/gauss_test.txt");
+        M2.BacaMatriksTxt("src/test.txt");
+        M.BacaMatriks();
+        System.out.println("Matriks yang anda masukkan: ");
+        M.TulisMatriks();
+        System.out.println();
+
         System.out.println();
         Matriks MKoef = M3.Koefisien();
         MKoef.TulisMatriks();
@@ -68,6 +68,8 @@ class Program {
         M3Balikan.TulisMatriks();
         */
 
+        /* =========================================== MAIN PROGRAM =======================================*/
+        /* MAIN PROGRAM
         System.out.println("-----------------------------");
         System.out.println("-----------MATRIKS-----------");
         System.out.println();
@@ -113,6 +115,7 @@ class Program {
                     System.out.println("-----------------------------");
                     System.out.println("Terima Kasih!");
                     exit = true;
+                    scan.close();
                     break;
                 default:
                     System.out.println("Input Anda salah. Silahkan Ulangi!");
@@ -238,9 +241,10 @@ class Program {
         System.out.print("Loading to Menu");
         for (int i =0; i<5;i++){
             System.out.print(".");
-            Thread.sleep(500);
+            Thread.sleep(100);
         }
         System.out.println();
     }   
     
 }
+*/

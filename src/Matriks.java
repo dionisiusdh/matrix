@@ -51,6 +51,7 @@ public class Matriks {
         System.out.print("Masukkan jumlah kolom: ");
         this.NKolEff = scan.nextInt();
 
+        System.out.print("Masukkan matriks: \n");
         for (int i=0; i < this.NBrsEff; i++){
             for (int j=0; j < this.NKolEff; j++){
                 this.M[i][j] = scan.nextInt();
@@ -94,6 +95,7 @@ public class Matriks {
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     public int NbElmt(Matriks M) {
