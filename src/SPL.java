@@ -59,8 +59,70 @@ public class SPL extends Matriks {
                 counter += 1;
             } 
         } else {
+            /* // ======================================== CARA 1 ========================================
+            int [] varBebas = new int[M1.NBrsEff+1];
+            boolean leadingOne = false;
+            int i = 0;
+            int j = 0;
+            int var_idx = 0;
+            char [] var_list = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'};
+
+            String [] VarSolusi = new String [100];
+            String [] Solusi = new String [100];
+            char var = 'a';
+
+            while (j < M1.NKolEff) {
+                
+                leadingOne = false;
+
+                if (M1.M[i][j] == 1 && !leadingOne) {
+                    leadingOne = true;
+                    varBebas[i] = j;
+
+                    if (i < M1.NBrsEff) {
+                        i += 1;
+                    }
+                } else {
+                    VarSolusi[j] = Character.toString(var);
+                    var_idx += 1;
+                    var = var_list[var_idx];
+                }
+                j += 1;
+            }
+
+            int z = 0;
+
+            for (int k = 0; k < M1.NBrsEff; k++) {
+                String hasil = "";
+                for (int l = M1.NKolEff - 1; l > varBebas[k]; l--) {
+                    if (M1.M[k][l] > 0 && M1.M[k][l] != 0 && l != M1.NKolEff - l){
+                        hasil += " + " + Math.abs(M1.M[k][l]) + VarSolusi[l];
+                    }
+                    if (M1.M[k][l] > 0 && M1.M[k][l] != 0 && l == M1.NKolEff - l){
+                        hasil += " + " + Math.abs(M1.M[k][l]);
+                    }
+                    if (M1.M[k][l] < 0 && M1.M[k][l] != 0 && l != M1.NKolEff - l) {
+                        hasil += " - " + Math.abs(M1.M[k][l]) + VarSolusi[l];
+                    }
+                    if (M1.M[k][l] < 0 && M1.M[k][l] != 0 && l == M1.NKolEff - l) {
+                        hasil += " - " + Math.abs(M1.M[k][l]) + VarSolusi[l];
+                    }
+                    VarSolusi[varBebas[k]] = M1.M[k][M1.NKolEff] + hasil;
+                }
+                Solusi[z] = M1.M[k][M1.NKolEff] + hasil;
+                z += 1;
+            }
+            
+            
+            for (int m = 0; m < M1.NBrsEff; m++) {
+                String s = "x" + (m+1) + " = " + Solusi[m];
+                System.out.println(s + "\n");
+            }
+            */
+
+            // ======================================== CARA 2 ========================================
             // Cek variabel bebas dan leading one / satu utama yang ada pada matriks
-            int [] varBebas = new int[M1.NKolEff];
+            /*int [] varBebas = new int[M1.NKolEff];
             varBebas[0] = 0;
 
             for (int j = 0; j < M1.NKolEff; j++) {
@@ -81,6 +143,7 @@ public class SPL extends Matriks {
                     varBebas[j] = 0;
                 }
             }
+
 
             // Memanipulasi matriks agar menjadi sebuah matriks persegi (jika bukan)
             while (!M1.Koefisien().IsPersegi()) {
@@ -152,6 +215,7 @@ public class SPL extends Matriks {
             }
             System.out.println(output);
             output = "";
+            */
         }
     }
 
@@ -195,7 +259,11 @@ public class SPL extends Matriks {
         
         d = temp.DeterminanKofaktor();
         if (d == 0){
-            System.out.println("Solusi Tidak ada");
+            if (!this.isSolutionExist()) {
+                System.out.println("Solusi tidak ada.");
+            } else {
+                System.out.println("Solusi banyak.");
+            }
         }
         else{
             temp1 = BuatMatriks(this.NBrsEff, this.NKolEff - 1);
