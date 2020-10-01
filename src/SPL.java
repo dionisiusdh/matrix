@@ -1,5 +1,8 @@
 package src; // Kalo dipake jadi gabisa dicompile, comment dlu sebelum compile pakai javac
 
+import java.util.*;
+import java.io.*;
+
 public class SPL extends Matriks {
     // Menyelesaikan sistem persamaan linear dengan berbagai metode
     String Solusi = "";
@@ -10,23 +13,55 @@ public class SPL extends Matriks {
             case 1:
                 System.out.println("Penyelesaian SPL menggunakan eliminasi Gauss: ");
                 this.splGauss();
+                this.save_solusi("eliminasi Gauss:");
                 break;
             case 2:
                 System.out.println("Penyelesaian SPL menggunakan eliminasi Gauss-Jordan: ");
                 this.splGaussJordan();
+                this.save_solusi("eliminasi Gauss-Jordan:");
                 break;
             case 3:
                 System.out.println("Penyelesaian SPL menggunakan matriks balikan: ");
                 this.splMatriksBalikan();
+                this.save_solusi("matriks balikan:");
                 break;
             case 4:
                 System.out.println("Penyelesaian SPL menggunakan kaidah Cramer: ");
                 this.splCramer();
+                this.save_solusi("kaidah Cramer:");
                 break;
         }
     }
 
-    /* ======================== METODE PENYELESAIAN ======================== */
+    public void save_solusi(String metode) {
+        Scanner scan1 = new Scanner(System.in);
+        System.out.print("Apakah Anda ingin menyimpan solusi SPL? Y/N: ");
+        char ans = scan1.next().charAt(0);
+        if (ans=='Y' || ans=='y'){
+            try {
+                Scanner scan = new Scanner(System.in);
+                System.out.print("Masukkan nama file: ");
+                String nama_file = scan.nextLine();
+                
+                nama_file += ".txt";
+    
+                FileOutputStream save_file = new FileOutputStream(("./test/" + nama_file));
+                
+                String Solusi_save = "Penyelesaian SPL menggunakan " + metode + "\n" + this.Solusi;
+    
+                byte value[] = Solusi_save.getBytes();
+                save_file.write(value);
+                
+                // scan.close();
+                save_file.close();
+    
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /* ======================== METODE PENYELESAIAN SPL ======================== */
     public void splGauss() {
         //Mencari solusi SPL menggunakan metode eliminasi Gauss
         //SPL dalam bentuk matriks augmented 
@@ -36,6 +71,7 @@ public class SPL extends Matriks {
 
         if(!M1.isSolutionExist()) {
             System.out.println("SPL tidak memiliki solusi.");
+            this.Solusi = "SPL tidak memiliki solusi.";
         } else if (M1.isSingleSolution()) {
             M1.EliminasiGauss();
             M1.solveSingleSolution();
@@ -54,6 +90,7 @@ public class SPL extends Matriks {
 
         if(!M1.isSolutionExist()) {
             System.out.println("SPL tidak memiliki solusi.");
+            this.Solusi = "SPL tidak memiliki solusi.";
         } else if (M1.isSingleSolution()) {
             M1.EliminasiGaussJordan();
             M1.solveSingleSolution();
@@ -71,16 +108,19 @@ public class SPL extends Matriks {
 
         if(!MKoef.IsPersegi()) {
             System.out.println("Matriks koefisien bukan matriks persegi, sehingga tidak dapat diselesaikan dengan metode matriks balikan.");
+            this.Solusi = "Matriks koefisien bukan matriks persegi, sehingga tidak dapat diselesaikan dengan metode matriks balikan.";
         } else {
             float det = MKoef.DeterminanKofaktor();
             if (det == 0) {
                 System.out.println("Determinan matriks koefisien bernilai 0, sehingga tidak dapat diselesaikan dengan metode matriks balikan.");
+                this.Solusi = "Determinan matriks koefisien bernilai 0, sehingga tidak dapat diselesaikan dengan metode matriks balikan.";
             } else {
                 Matriks MBalikan = MKoef.BuatMatriksBalikan();
                 Matriks MHsl = MBalikan.KaliMatriks(MKons);
 
                 for (int i = 0; i < MHsl.NBrsEff; i++) {
                     System.out.println("x" + (i+1) + " = " + MHsl.M[i][0]);
+                    this.Solusi += "x" + (i+1) + " = " + MHsl.M[i][0] + "\n";
                 }
             }
         }
@@ -105,8 +145,10 @@ public class SPL extends Matriks {
         if (d == 0){
             if (!this.isSolutionExist()) {
                 System.out.println("SPL tidak memiliki solusi.");
+                this.Solusi = "SPL tidak memiliki solusi.";
             } else {
                 System.out.println("SPL memiliki banyak solusi. Untuk melihat solusi parametrik gunakan eliminasi Gauss atau Gauss-Jordan");
+                this.Solusi = "SPL memiliki banyak solusi. Untuk melihat solusi parametrik gunakan eliminasi Gauss atau Gauss-Jordan";
             }
         }
         else{
@@ -126,19 +168,10 @@ public class SPL extends Matriks {
                 solX[i] = dx/d;
                 int counter = i+1;
                 System.out.println("x" + counter +" = " + solX[i]);
+                this.Solusi += "x" + counter +" = " + solX[i] + "\n";
             }
         }
         return solX;
-    }
-
-    public void copySPLMatriks(SPL a, Matriks B){
-        for (int i=0; i<B.NBrsEff; i++){
-            for (int j=0; j<B.NKolEff; j++){
-                a.M[i][j] = B.M[i][j];
-            }
-        }
-        a.NBrsEff = B.NBrsEff;
-        a.NKolEff = B.NKolEff;
     }
 
     /* ======================== SOLVER & OUTPUT SOLUSI ======================== */
@@ -149,6 +182,7 @@ public class SPL extends Matriks {
 
         for(int i=0; i < this.NBrsEff; i++) {
             System.out.println("x" + counter + " = " + M1.M[i][this.NKolEff-1]);
+            this.Solusi = "x" + counter + " = " + M1.M[i][this.NKolEff-1];
             counter += 1;
         } 
     }
@@ -244,6 +278,7 @@ public class SPL extends Matriks {
             output += '\n';
         }
         System.out.println(output);
+        this.Solusi += output;
         output = "";
     }
 
@@ -325,5 +360,15 @@ public class SPL extends Matriks {
             System.out.println("SolX: "+solX[i]);
         }
         return solX;
+    }
+
+    public void copySPLMatriks(SPL a, Matriks B){
+        for (int i=0; i<B.NBrsEff; i++){
+            for (int j=0; j<B.NKolEff; j++){
+                a.M[i][j] = B.M[i][j];
+            }
+        }
+        a.NBrsEff = B.NBrsEff;
+        a.NKolEff = B.NKolEff;
     }
 }

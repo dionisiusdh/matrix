@@ -728,7 +728,7 @@ public class Matriks {
             
             nama_file += ".txt";
 
-            FileOutputStream save_file = new FileOutputStream(("./src/" + nama_file));
+            FileOutputStream save_file = new FileOutputStream(("./test/" + nama_file));
             
             for (int i=0; i <= MHsl.NBrsEff; i++) {
                 for (int j=0; j <= MHsl.NBrsEff; j++) {
@@ -739,6 +739,8 @@ public class Matriks {
                 save_file.write(enter_byte);
             }
             
+            System.out.print("File berhasil disimpan di ./test/" + nama_file);
+
             // scan.close();
             save_file.close();
 

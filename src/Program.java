@@ -6,14 +6,12 @@ class Program {
     public static void main(String[] args) throws InterruptedException{
         // DEBUG SPL
         SPL M3 = new SPL();
-        M3.BacaMatriksTxt("test/8.txt"); // ./spl_test2.txt pas compile
+        M3.BacaMatriksTxt("src/spl_test2.txt"); // ./spl_test2.txt pas compile
         System.out.println("Matriks yang anda masukkan: ");
-        //M3.EliminasiGauss();
         M3.TulisMatriks();
-
-        M3.menuSPL(4);
-
         M3.menuSPL(2);
+        //M3.save_solusi("Gauss-Jordan");
+
     }
 }
         //System.out.println("Apakah ada solusi? " + M3.isSolutionExist());
