@@ -1,0 +1,2 @@
+Penyelesaian SPL menggunakan Gauss-Jordan:
+x4 = -0.15110755

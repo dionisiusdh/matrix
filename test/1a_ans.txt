@@ -1,0 +1,2 @@
+Penyelesaian SPL menggunakan Gauss-Jordan
+SPL tidak memiliki solusi.

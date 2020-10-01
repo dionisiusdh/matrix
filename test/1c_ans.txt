@@ -1,0 +1,2 @@
+Penyelesaian SPL menggunakan Gauss-Jordan
+x3 = 1.0

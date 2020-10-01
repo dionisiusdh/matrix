@@ -591,7 +591,6 @@ public class Matriks {
         }
 
         Interpolasi.EliminasiGaussJordan();
-        Interpolasi.TulisMatriks();
 
         // Output persamaan hasil interpolasi polinom
         int counter = 2;
@@ -634,7 +633,7 @@ public class Matriks {
 
             Solusi += "P"+ (Interpolasi.NBrsEff-1) + "(" + taksir +") = " + sum + "\n";
 
-            System.out.print("Apakah anda ingin menaksir titik lain? Y/N ");
+            System.out.print("Apakah anda ingin menaksir titik lain? Y/N: ");
 
             Scanner scan1 = new Scanner(System.in);
             char ans = scan1.next().charAt(0);
@@ -759,7 +758,7 @@ public class Matriks {
             Matriks MHsl = this;
 
             Scanner scan = new Scanner(System.in);
-            System.out.print("Masukkan nama file: ");
+            System.out.print("Masukkan nama file (tanpa ekstensi): ");
             String nama_file = scan.nextLine();
             
             nama_file += ".txt";
@@ -792,7 +791,7 @@ public class Matriks {
         char ans2 = scan.next().charAt(0);
         if (ans2=='Y' || ans2=='y'){
             try {
-                System.out.print("Masukkan nama file: ");
+                System.out.print("Masukkan nama file (tanpa ekstensi): ");
                 String nama_file = scan.nextLine();
                         
                 nama_file += ".txt";

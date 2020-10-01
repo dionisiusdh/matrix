@@ -35,12 +35,12 @@ public class SPL extends Matriks {
 
     public void save_solusi(String metode) {
         Scanner scan1 = new Scanner(System.in);
-        System.out.print("Apakah Anda ingin menyimpan solusi SPL? Y/N: ");
+        System.out.print("Apakah Anda ingin menyimpan solusi? Y/N: ");
         char ans = scan1.next().charAt(0);
         if (ans=='Y' || ans=='y'){
             try {
                 Scanner scan = new Scanner(System.in);
-                System.out.print("Masukkan nama file: ");
+                System.out.print("Masukkan nama file (tanpa ekstensi): ");
                 String nama_file = scan.nextLine();
                 
                 nama_file += ".txt";
@@ -73,11 +73,15 @@ public class SPL extends Matriks {
 
         if(!M1.isSolutionExist()) {
             System.out.println("SPL tidak memiliki solusi.");
-            this.Solusi = "SPL tidak memiliki solusi.";
+            this.Solusi += "SPL tidak memiliki solusi.";
         } else if (M1.isSingleSolution()) {
+            System.out.println("SPL memiliki solusi tunggal.\n");
+            this.Solusi += "SPL memiliki solusi tunggal.\n";
             M1.EliminasiGauss();
             M1.solveSingleSolution();
         } else {
+            System.out.println("SPL memiliki solusi banyak.\n");
+            this.Solusi += "SPL memiliki solusi banyak.\n";
             M1.EliminasiGauss();
             M1.solveManySolution();
         }
@@ -96,9 +100,13 @@ public class SPL extends Matriks {
             System.out.println("SPL tidak memiliki solusi.");
             this.Solusi = "SPL tidak memiliki solusi.";
         } else if (M1.isSingleSolution()) {
+            System.out.println("SPL memiliki solusi tunggal.\n");
+            this.Solusi += "SPL memiliki solusi tunggal.\n";
             M1.EliminasiGaussJordan();
             M1.solveSingleSolution();
         } else {
+            System.out.println("SPL memiliki solusi banyak.\n");
+            this.Solusi += "SPL memiliki solusi banyak.\n";
             M1.EliminasiGaussJordan();
             M1.solveManySolution();
         }
@@ -203,7 +211,7 @@ public class SPL extends Matriks {
             boolean leadingOne = false;
 
             for (int i = 0; i < M1.NBrsEff; i++) {
-                if (M1.M[i][j] != 0 && (M1.M[i][j] != 1 && leadingOne == false)) {
+                if (M1.M[i][j] != 0 && (M1.M[i][j] != 1)) {
                     count_varBebas += 1;
                 }
                 if (!leadingOne && M1.M[i][j] == 1) {
@@ -226,7 +234,7 @@ public class SPL extends Matriks {
         } */
 
         // Mengurutkan matriks berdasarkan posisi variabel
-        int [] IdxKolPivot = new int[M1.NBrsEff+1];
+        /*int [] IdxKolPivot = new int[M1.NBrsEff+1];
         for (int i = 0; i < M1.NBrsEff; i++) {
             IdxKolPivot[i] = M1.CariIdxKolPivot(i);
         } 
@@ -239,6 +247,10 @@ public class SPL extends Matriks {
             }
         }
 
+        for (int i=0; i<IdxKolPivot.length; i++)  {
+            System.out.println(IdxKolPivot[i]);
+        }*/
+
         // Output hasil dalam bentuk string
         String output = "";
 
@@ -246,7 +258,7 @@ public class SPL extends Matriks {
             boolean constant = false;
 
             if (i == M1.NBrsEff-1) {
-                output += "x" + (i+1) + " = k, untuk k ∊ R ";
+                output += "x" + (i+1) + " = t, untuk t ∊ R ";
             } else {
                 output += "x" + (i+1) + " = ";
             }
@@ -262,7 +274,7 @@ public class SPL extends Matriks {
                         if (M1.M[i][j] != -1) {
                             output += " + (" + (-1)*M1.M[i][j] + ")x" + (j+1) + " ";
                         } else {
-                            output += " +x" + (j+1) + " ";
+                            output += " + x" + (j) + " ";
                         }
                     }
                 } else if (!constant && varBebas[j] == 1 && M1.M[i][j-1] != 0) {
@@ -270,7 +282,7 @@ public class SPL extends Matriks {
                         if (M1.M[i][j] != -1) {
                             output += "(" + (-1)*M1.M[i][j] + ")x" + (j+1) + " ";
                         } else {
-                            output += " x" + (j+1) + " ";
+                            output += " + x" + (j) + " ";
                         }
                     }
                 }

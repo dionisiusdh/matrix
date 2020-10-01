@@ -1,0 +1,4 @@
+Penyelesaian SPL menggunakan Hasil persamaan interpolasi polinom:
+f(x,y) = -6.815744E7 + -2.66955653E11x + -58952.0x^2 + 2.6702617E11x^3 + -3.241744E7x^4 + 8138752.0x^5 + 2.07597184E9x^6 + -2.07624602E9x^7 + 17394.4x^8 + -454.9421x^9
+P9(0.0) = -6.815744E7
+

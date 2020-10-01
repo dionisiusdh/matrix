@@ -1,0 +1,7 @@
+Penyelesaian SPL menggunakan kaidah Cramer:
+x1 = 4.194664
+x2 = -7.938921
+x3 = 2.3647573
+x4 = -13.400475
+x5 = 21.002544
+x6 = -5.3481755
