@@ -101,12 +101,12 @@ public class SPL extends Matriks {
             }
         }
         
-        d = temp.DeterminanKofaktor();
+        d = temp.DeterminanOBE();
         if (d == 0){
             if (!this.isSolutionExist()) {
-                System.out.println("Solusi tidak ada.");
+                System.out.println("SPL tidak memiliki solusi.");
             } else {
-                System.out.println("Solusi banyak.");
+                System.out.println("SPL memiliki banyak solusi. Untuk melihat solusi parametrik gunakan eliminasi Gauss atau Gauss-Jordan");
             }
         }
         else{
@@ -122,7 +122,7 @@ public class SPL extends Matriks {
                         }
                     }
                 }
-                dx = temp1.DeterminanKofaktor();
+                dx = temp1.DeterminanOBE();
                 solX[i] = dx/d;
                 int counter = i+1;
                 System.out.println("x" + counter +" = " + solX[i]);
