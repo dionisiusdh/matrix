@@ -2,7 +2,8 @@ package src; // Kalo dipake jadi gabisa dicompile, comment dlu sebelum compile p
 
 public class SPL extends Matriks {
     // Menyelesaikan sistem persamaan linear dengan berbagai metode
-
+    String Solusi = "";
+    
     /* ======================== MENU ======================== */
     public void menuSPL(int metode) {
         switch (metode) {
@@ -35,8 +36,12 @@ public class SPL extends Matriks {
 
         if(!M1.isSolutionExist()) {
             System.out.println("SPL tidak memiliki solusi.");
+        } else if (M1.isSingleSolution()) {
+            M1.EliminasiGauss();
+            M1.solveSingleSolution();
         } else {
-            // Ada solusi
+            M1.EliminasiGauss();
+            M1.solveManySolution();
         }
     }
 
@@ -51,171 +56,10 @@ public class SPL extends Matriks {
             System.out.println("SPL tidak memiliki solusi.");
         } else if (M1.isSingleSolution()) {
             M1.EliminasiGaussJordan();
-            
-            int counter = 1;
-
-            for(int i=0; i < this.NBrsEff; i++) {
-                System.out.println("x" + counter + " = " + M1.M[i][this.NKolEff-1]);
-                counter += 1;
-            } 
+            M1.solveSingleSolution();
         } else {
-            /* // ======================================== CARA 1 ========================================
-            int [] varBebas = new int[M1.NBrsEff+1];
-            boolean leadingOne = false;
-            int i = 0;
-            int j = 0;
-            int var_idx = 0;
-            char [] var_list = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'};
-
-            String [] VarSolusi = new String [100];
-            String [] Solusi = new String [100];
-            char var = 'a';
-
-            while (j < M1.NKolEff) {
-                
-                leadingOne = false;
-
-                if (M1.M[i][j] == 1 && !leadingOne) {
-                    leadingOne = true;
-                    varBebas[i] = j;
-
-                    if (i < M1.NBrsEff) {
-                        i += 1;
-                    }
-                } else {
-                    VarSolusi[j] = Character.toString(var);
-                    var_idx += 1;
-                    var = var_list[var_idx];
-                }
-                j += 1;
-            }
-
-            int z = 0;
-
-            for (int k = 0; k < M1.NBrsEff; k++) {
-                String hasil = "";
-                for (int l = M1.NKolEff - 1; l > varBebas[k]; l--) {
-                    if (M1.M[k][l] > 0 && M1.M[k][l] != 0 && l != M1.NKolEff - l){
-                        hasil += " + " + Math.abs(M1.M[k][l]) + VarSolusi[l];
-                    }
-                    if (M1.M[k][l] > 0 && M1.M[k][l] != 0 && l == M1.NKolEff - l){
-                        hasil += " + " + Math.abs(M1.M[k][l]);
-                    }
-                    if (M1.M[k][l] < 0 && M1.M[k][l] != 0 && l != M1.NKolEff - l) {
-                        hasil += " - " + Math.abs(M1.M[k][l]) + VarSolusi[l];
-                    }
-                    if (M1.M[k][l] < 0 && M1.M[k][l] != 0 && l == M1.NKolEff - l) {
-                        hasil += " - " + Math.abs(M1.M[k][l]) + VarSolusi[l];
-                    }
-                    VarSolusi[varBebas[k]] = M1.M[k][M1.NKolEff] + hasil;
-                }
-                Solusi[z] = M1.M[k][M1.NKolEff] + hasil;
-                z += 1;
-            }
-            
-            
-            for (int m = 0; m < M1.NBrsEff; m++) {
-                String s = "x" + (m+1) + " = " + Solusi[m];
-                System.out.println(s + "\n");
-            }
-            */
-
-            // ======================================== CARA 2 ========================================
-            // Cek variabel bebas dan leading one / satu utama yang ada pada matriks
-            int [] varBebas = new int[M1.NKolEff];
-            varBebas[0] = 0;
-
-            for (int j = 0; j < M1.NKolEff; j++) {
-                int count_varBebas = 0;
-                boolean leadingOne = false;
-
-                for (int i = 0; i < M1.NBrsEff; i++) {
-                    if (M1.M[i][j] != 0 && M1.M[i][j] != 1) {
-                        count_varBebas += 1;
-                    }
-                    if (!leadingOne && M1.M[i][j] == 1) {
-                        leadingOne = true;
-                    }
-                }
-                if (count_varBebas > 0 || (!leadingOne && count_varBebas == 0)) {
-                    varBebas[j] = 1; 
-                } else {
-                    varBebas[j] = 0;
-                }
-            }
-
-
-            // Memanipulasi matriks agar menjadi sebuah matriks persegi (jika bukan)
-            while (!M1.Koefisien().IsPersegi()) {
-                M1.NBrsEff += 1;
-                for (int j = 0; j < M1.NKolEff; j++) {
-                    M1.M[M1.NBrsEff=1][j] = 0;
-                }
-            }
-
-            // Mengurutkan matriks berdasarkan posisi variabel
-            int [] IdxKolPivot = new int[M1.NBrsEff+1];
-            for (int i = 0; i < M1.NBrsEff; i++) {
-                IdxKolPivot[i] = M1.CariIdxKolPivot(i);
-            } 
-            for (int i = 0; i < IdxKolPivot.length-1; i++) {
-                if (IdxKolPivot[i] != i && IdxKolPivot[i] != M1.IdxUndef) {
-                    int temp = IdxKolPivot[i];
-                    IdxKolPivot[i] = IdxKolPivot[i+1];
-                    IdxKolPivot[i+1] = temp;
-                    M1.swapBaris(i, i+1);
-                }
-            }
-
-            for (int i = 0; i < M1.NKolEff; i++) {
-                System.out.println(varBebas[i]);
-            }
-            System.out.println();
-            // Output hasil dalam bentuk string
-            String output = "";
-
-            for (int i=0; i < M1.NBrsEff; i++) {
-                boolean constant = false;
-
-                if (i == M1.NBrsEff-1) {
-                    output += "x" + (i+1) + " = k, untuk k ∊ R ";
-                } else {
-                    output += "x" + (i+1) + " = ";
-                }
-
-                if (M1.M[i][M1.NKolEff-1] != 0) {
-                    output += M1.M[i][M1.NKolEff-1] + " ";
-                    constant = true;
-                }
-
-                for (int j = CariIdxKolPivot(i)+1; j < M1.NKolEff - 1; j++) {
-                    if (constant && varBebas[j] == 1 && M1.M[i][j] != 0) {
-                        if (M1.M[i][j] != 0) {
-                            if (M1.M[i][j] != -1) {
-                                output += " + (" + (-1)*M1.M[i][j] + ")x" + (j+1) + " ";
-                            } else {
-                                output += " +x" + (j+1) + " ";
-                            }
-                        }
-                    } else if (!constant && varBebas[j] == 1 && M1.M[i][j-1] != 0) {
-                        if (M1.M[i][j] != 0) {
-                            if (M1.M[i][j] != -1) {
-                                output += "(" + (-1)*M1.M[i][j] + ")x" + (j+1) + " ";
-                            } else {
-                                output += " x" + (j+1) + " ";
-                            }
-                        }
-                    }
-
-                    if (varBebas[j] == 1 && i == j) {
-                        output += "x" + (j+1);
-                    }
-                }
-                output += '\n';
-            }
-            System.out.println(output);
-            output = "";
-            
+            M1.EliminasiGaussJordan();
+            M1.solveManySolution();
         }
     }
 
@@ -281,11 +125,12 @@ public class SPL extends Matriks {
                 dx = temp1.DeterminanKofaktor();
                 solX[i] = dx/d;
                 int counter = i+1;
-                System.out.println("X" + counter +" : " + solX[i]);
+                System.out.println("x" + counter +" = " + solX[i]);
             }
         }
         return solX;
     }
+
     public void copySPLMatriks(SPL a, Matriks B){
         for (int i=0; i<B.NBrsEff; i++){
             for (int j=0; j<B.NKolEff; j++){
@@ -294,6 +139,112 @@ public class SPL extends Matriks {
         }
         a.NBrsEff = B.NBrsEff;
         a.NKolEff = B.NKolEff;
+    }
+
+    /* ======================== SOLVER & OUTPUT SOLUSI ======================== */
+    public void solveSingleSolution() {
+        SPL M1 = this;
+
+        int counter = 1;
+
+        for(int i=0; i < this.NBrsEff; i++) {
+            System.out.println("x" + counter + " = " + M1.M[i][this.NKolEff-1]);
+            counter += 1;
+        } 
+    }
+
+    public void solveManySolution() {
+        SPL M1 = this;
+
+        // Cek variabel bebas dan leading one / satu utama yang ada pada matriks
+        int [] varBebas = new int[M1.NKolEff];
+        varBebas[0] = 0;
+
+        for (int j = 0; j < M1.NKolEff; j++) {
+            int count_varBebas = 0;
+            boolean leadingOne = false;
+
+            for (int i = 0; i < M1.NBrsEff; i++) {
+                if (M1.M[i][j] != 0 && M1.M[i][j] != 1) {
+                    count_varBebas += 1;
+                }
+                if (!leadingOne && M1.M[i][j] == 1) {
+                    leadingOne = true;
+                }
+            }
+            if (count_varBebas > 0 || (!leadingOne && count_varBebas == 0)) {
+                varBebas[j] = 1; 
+            } else {
+                varBebas[j] = 0;
+            }
+        }
+
+        // Memanipulasi matriks agar menjadi sebuah matriks persegi (jika bukan)
+        while (!M1.Koefisien().IsPersegi()) {
+            M1.NBrsEff += 1;
+            for (int j = 0; j < M1.NKolEff; j++) {
+                M1.M[M1.NBrsEff=1][j] = 0;
+            }
+        }
+
+        // Mengurutkan matriks berdasarkan posisi variabel
+        int [] IdxKolPivot = new int[M1.NBrsEff+1];
+        for (int i = 0; i < M1.NBrsEff; i++) {
+            IdxKolPivot[i] = M1.CariIdxKolPivot(i);
+        } 
+        for (int i = 0; i < IdxKolPivot.length-1; i++) {
+            if (IdxKolPivot[i] != i && IdxKolPivot[i] != M1.IdxUndef) {
+                int temp = IdxKolPivot[i];
+                IdxKolPivot[i] = IdxKolPivot[i+1];
+                IdxKolPivot[i+1] = temp;
+                M1.swapBaris(i, i+1);
+            }
+        }
+
+        // Output hasil dalam bentuk string
+        String output = "";
+
+        for (int i=0; i < M1.NBrsEff; i++) {
+            boolean constant = false;
+
+            if (i == M1.NBrsEff-1) {
+                output += "x" + (i+1) + " = k, untuk k ∊ R ";
+            } else {
+                output += "x" + (i+1) + " = ";
+            }
+
+            if (M1.M[i][M1.NKolEff-1] != 0) {
+                output += M1.M[i][M1.NKolEff-1] + " ";
+                constant = true;
+            }
+
+            for (int j = CariIdxKolPivot(i)+1; j < M1.NKolEff - 1; j++) {
+                if (constant && varBebas[j] == 1 && M1.M[i][j] != 0) {
+                    if (M1.M[i][j] != 0) {
+                        if (M1.M[i][j] != -1) {
+                            output += " + (" + (-1)*M1.M[i][j] + ")x" + (j+1) + " ";
+                        } else {
+                            output += " +x" + (j+1) + " ";
+                        }
+                    }
+                } else if (!constant && varBebas[j] == 1 && M1.M[i][j-1] != 0) {
+                    if (M1.M[i][j] != 0) {
+                        if (M1.M[i][j] != -1) {
+                            output += "(" + (-1)*M1.M[i][j] + ")x" + (j+1) + " ";
+                        } else {
+                            output += " x" + (j+1) + " ";
+                        }
+                    }
+                }
+
+                if (varBebas[j] == 1 && i == j) {
+                    output += "x" + (j+1);
+                }
+            }
+            output += '\n';
+        }
+        System.out.println(output);
+        output = "";
     }
 
     /* ======================== CEK SOLUSI ======================== */
