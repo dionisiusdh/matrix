@@ -522,7 +522,7 @@ public class Matriks {
         int tipeInput = scan.nextInt();
 
         Matriks Interpolasi = new Matriks();
-        String Solusi = "";
+        String Solusi = "Hasil persamaan interpolasi polinom:\nf(x,y) = ";
 
         if (tipeInput==1){
             int N;
@@ -591,7 +591,28 @@ public class Matriks {
         }
 
         Interpolasi.EliminasiGaussJordan();
-        
+        Interpolasi.TulisMatriks();
+
+        // Output persamaan hasil interpolasi polinom
+        int counter = 2;
+
+        for (int i = 0; i < Interpolasi.NBrsEff; i++) {
+            if (i == 0) {
+                Solusi += Interpolasi.M[i][Interpolasi.NKolEff-1] + " + ";
+            } else if (i == 1) {
+                Solusi += Interpolasi.M[i][Interpolasi.NKolEff-1] + "x + ";
+            } else if (i == Interpolasi.NBrsEff-1) {
+                Solusi += Interpolasi.M[i][Interpolasi.NKolEff-1] + "x^" + counter;
+                counter += 1;
+            } else {
+                Solusi += Interpolasi.M[i][Interpolasi.NKolEff-1] + "x^" + counter + " " + "+ ";
+                counter += 1;
+            }
+        }
+        System.out.println(Solusi);
+        Solusi += "\n";
+
+        // Menaksir nilai
         boolean sudah = false;
 
         while (!sudah) {

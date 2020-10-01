@@ -6,14 +6,14 @@ import java.io.*;
 class Program {
     public static void main(String[] args) throws InterruptedException{
         // DEBUG SPL
-        /*SPL M3 = new SPL();
-        M3.BacaMatriksTxt("test/3b.txt"); // ./spl_test2.txt pas compile
+        SPL M3 = new SPL();
+        M3.BacaMatriksTxt("test/5.txt"); // ./spl_test2.txt pas compile
         System.out.println("Matriks yang anda masukkan: ");
         M3.TulisMatriks();
-        M3.splGaussJordan();
-        M3.save_solusi("Gauss-Jordan");
+        M3.Interpolasi();
+        //M3.splGaussJordan();
     }
-}*/
+}
         //System.out.println("Apakah ada solusi? " + M3.isSolutionExist());
         //System.out.println("Apakah banyak solusi? " + M3.isManySolution());
         //System.out.println("Apakah solusi tunggal? " + M3.isSingleSolution());  
@@ -69,7 +69,7 @@ class Program {
         */
 
         /* =========================================== MAIN PROGRAM =======================================*/
-        
+        /*
         System.out.println("=============================");
         System.out.println("-----------MATRIKS-----------");
         System.out.println("     Tugas Besar Algeo 1     ");
@@ -288,3 +288,4 @@ class Program {
         }
     }
 }
+*/
