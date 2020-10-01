@@ -6,7 +6,7 @@ class Program {
     public static void main(String[] args) throws InterruptedException{
         // DEBUG SPL
         SPL M3 = new SPL();
-        M3.BacaMatriksTxt("src/spl_test2.txt"); // ./spl_test2.txt pas compile
+        M3.BacaMatriksTxt("test/3b"); // ./spl_test2.txt pas compile
         System.out.println("Matriks yang anda masukkan: ");
         
         M3.EliminasiGaussJordan();

@@ -122,7 +122,7 @@ public class SPL extends Matriks {
 
             // ======================================== CARA 2 ========================================
             // Cek variabel bebas dan leading one / satu utama yang ada pada matriks
-            /*int [] varBebas = new int[M1.NKolEff];
+            int [] varBebas = new int[M1.NKolEff];
             varBebas[0] = 0;
 
             for (int j = 0; j < M1.NKolEff; j++) {
@@ -188,34 +188,34 @@ public class SPL extends Matriks {
                     constant = true;
                 }
 
-                for (int j = 0; j < M1.NKolEff; j++) {
+                for (int j = CariIdxKolPivot(i)+1; j < M1.NKolEff - 1; j++) {
                     if (constant && varBebas[j] == 1 && M1.M[i][j] != 0) {
                         if (M1.M[i][j] != 0) {
                             if (M1.M[i][j] != -1) {
-                                output += " + (" + (-1)*M1.M[i][j-1] + ")x" + (j) + " ";
+                                output += " + (" + (-1)*M1.M[i][j] + ")x" + (j+1) + " ";
                             } else {
-                                output += " +x" + (j) + " ";
+                                output += " +x" + (j+1) + " ";
                             }
                         }
                     } else if (!constant && varBebas[j] == 1 && M1.M[i][j-1] != 0) {
                         if (M1.M[i][j] != 0) {
                             if (M1.M[i][j] != -1) {
-                                output += "(" + (-1)*M1.M[i][j] + ")x" + (j) + " ";
+                                output += "(" + (-1)*M1.M[i][j] + ")x" + (j+1) + " ";
                             } else {
-                                output += " x" + (j) + " ";
+                                output += " x" + (j+1) + " ";
                             }
                         }
                     }
 
                     if (varBebas[j] == 1 && i == j) {
-                        output += "x" + (j);
+                        output += "x" + (j+1);
                     }
                 }
                 output += '\n';
             }
             System.out.println(output);
             output = "";
-            */
+            
         }
     }
 
