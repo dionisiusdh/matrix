@@ -548,7 +548,7 @@ public class Matriks {
         }
 
         else if(tipeInput==2){
-            System.out.print("Masukkan path file .txt: ");
+            System.out.print("Masukkan path file .txt (Contoh: test/1.txt): ");
             Scanner in = new Scanner(System.in);
             String pathTxt = in.nextLine();
             try{

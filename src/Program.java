@@ -5,71 +5,7 @@ import java.io.*;
 
 class Program {
     public static void main(String[] args) throws InterruptedException{
-        // DEBUG SPL
-        SPL M3 = new SPL();
-        M3.BacaMatriksTxt("test/3a.txt"); // ./spl_test2.txt pas compile
-        System.out.println("Matriks yang anda masukkan: ");
-        M3.TulisMatriks();
-        M3.splGaussJordan();
-        M3.save_solusi("Gauss-Jordan:");
-    }
-}
-        //System.out.println("Apakah ada solusi? " + M3.isSolutionExist());
-        //System.out.println("Apakah banyak solusi? " + M3.isManySolution());
-        //System.out.println("Apakah solusi tunggal? " + M3.isSingleSolution());  
-
-        /* =========================================== DEBUG =======================================*/
-        /* DEBUG METODE MATRIKS
-        Matriks M = new Matriks();
-        Matriks M2 = new Matriks();
-
-        M.BacaMatriksTxt("src/gauss_test.txt");
-        M2.BacaMatriksTxt("src/test.txt");
-        M.BacaMatriks();
-        System.out.println("Matriks yang anda masukkan: ");
-        M.TulisMatriks();
-        System.out.println();
-
-        System.out.println();
-        Matriks MKoef = M3.Koefisien();
-        MKoef.TulisMatriks();
-
-        System.out.println();
-        Matriks MKons = M3.Konstanta();
-        MKons.TulisMatriks();
-
-        System.out.println();
-        Matriks MBalikan = M3.BuatMatriksBalikan();
-        MBalikan.TulisMatriks();
-
-        System.out.println();
-        Matriks MKali = M3.KaliMatriks(MBalikan);
-        MKali.TulisMatriks();
-        System.out.println();
-        */
-
-        /* DEBUG DETERMINAN
-        //Prekondisi M adalah square matrix
-        float det = M.DeterminanOBE();
-        System.out.println("Determinan matriks OBE: " + det);
-        System.out.println();
-
-        float det2 = M2.DeterminanKofaktor();
-        System.out.println("Determinan matriks Kofaktor: " + det2);
-        */
-
-        /*DEBUG INVERSE
-        // Matriks Balikan
-        Matriks M3 = new Matriks();
-        M3.BacaMatriksTxt("src/inverse_test.txt");
-
-        System.out.println("\n Matriks balikan: ");
-        Matriks M3Balikan = M3.BuatMatriksBalikan();
-        M3Balikan.TulisMatriks();
-        */
-
         /* =========================================== MAIN PROGRAM =======================================*/
-        /*
         System.out.println("=============================");
         System.out.println("-----------MATRIKS-----------");
         System.out.println("     Tugas Besar Algeo 1     ");
@@ -78,16 +14,8 @@ class Program {
         //Menu Utama
 
         boolean exit = false;
-        //Matriks MInput = new Matriks();
-        
-        //MenuInputMatriks(MInput);
 
         while(!exit){
-            //Mengcopy isi MInput ke MProses agar matriks tidak berubah setelah diproses
-            //Matriks MProses = new Matriks();
-            //MProses = MProses.BuatMatriks(MInput.NBrsEff, MInput.NKolEff);
-            //MProses = MProses.CopyMatriks(MInput, MProses);
-
             Scanner scan = new Scanner(System.in);
             MenuUtama();
             int tipeFitur = scan.nextInt();
@@ -110,12 +38,11 @@ class Program {
                     break;
                 case 4:
                     Matriks M4 = new Matriks();
-                    MenuInputMatriks(M4);
                     MenuInterpolasi(M4);
                     break;
                 case 5:
-                    System.out.println("-----------------------------");
-                    System.out.println("---Regresi Linier Berganda---");
+                    Matriks M5 = new Matriks();
+                    MenuRegresi(M5);
                     break;
                 case 6:
                     System.out.println("-----------------------------");
@@ -223,6 +150,11 @@ class Program {
         MProses.Interpolasi();
     }
 
+    public static void MenuRegresi(Matriks MProses){
+        System.out.println("-----------------------------");
+        System.out.println("---Regresi Linier Berganda---");
+    }
+
     public static void MenuInputMatriks(Matriks MInput){
         boolean inputMatriks = true;
         while (inputMatriks){
@@ -288,4 +220,3 @@ class Program {
         }
     }
 }
-*/
