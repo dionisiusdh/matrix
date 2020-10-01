@@ -1,21 +1,19 @@
 package src; // Kalo dipake jadi gabisa dicompile, comment dlu sebelum compile pakai javac
 
 import java.util.*;
+import java.io.*;
 
 class Program {
     public static void main(String[] args) throws InterruptedException{
         // DEBUG SPL
-        SPL M3 = new SPL();
-        M3.BacaMatriksTxt("test/1b.txt"); // ./spl_test2.txt pas compile
+        /*SPL M3 = new SPL();
+        M3.BacaMatriksTxt("test/3b.txt"); // ./spl_test2.txt pas compile
         System.out.println("Matriks yang anda masukkan: ");
-        
-        M3.EliminasiGaussJordan();
         M3.TulisMatriks();
         M3.splGaussJordan();
-        //M3.save_solusi("Gauss-Jordan");
-
+        M3.save_solusi("Gauss-Jordan");
     }
-}
+}*/
         //System.out.println("Apakah ada solusi? " + M3.isSolutionExist());
         //System.out.println("Apakah banyak solusi? " + M3.isManySolution());
         //System.out.println("Apakah solusi tunggal? " + M3.isSingleSolution());  
@@ -71,23 +69,24 @@ class Program {
         */
 
         /* =========================================== MAIN PROGRAM =======================================*/
-        /* MAIN PROGRAM
-        System.out.println("-----------------------------");
+        
+        System.out.println("=============================");
         System.out.println("-----------MATRIKS-----------");
-        System.out.println();
+        System.out.println("     Tugas Besar Algeo 1     ");
+        System.out.println("         Kelompok 39         ");
+        System.out.println("=============================");
         //Menu Utama
 
         boolean exit = false;
-        Matriks MInput = new Matriks();
+        //Matriks MInput = new Matriks();
         
-        MenuInputMatriks(MInput);
+        //MenuInputMatriks(MInput);
 
         while(!exit){
-            loadingSleep();
             //Mengcopy isi MInput ke MProses agar matriks tidak berubah setelah diproses
-            Matriks MProses = new Matriks();
-            MProses = MProses.BuatMatriks(MInput.NBrsEff, MInput.NKolEff);
-            MProses = MProses.CopyMatriks(MInput, MProses);
+            //Matriks MProses = new Matriks();
+            //MProses = MProses.BuatMatriks(MInput.NBrsEff, MInput.NKolEff);
+            //MProses = MProses.CopyMatriks(MInput, MProses);
 
             Scanner scan = new Scanner(System.in);
             MenuUtama();
@@ -95,19 +94,24 @@ class Program {
             
             switch (tipeFitur) {
                 case 1:
-                    MenuSPL(MProses);  
+                    Matriks M1 = new Matriks();
+                    MenuInputMatriks(M1);
+                    MenuSPL(M1);  
                     break;
-                
                 case 2:
-                    MenuDeterminan(MProses);
+                    Matriks M2 = new Matriks();
+                    MenuInputMatriks(M2);
+                    MenuDeterminan(M2);
                     break;
-
                 case 3:
-                    MenuInverse(MInput, MProses);
+                    Matriks M3 = new Matriks();
+                    MenuInputMatriks(M3);
+                    MenuInverse(M3);
                     break;
                 case 4:
-                    System.out.println("-----------------------------");
-                    System.out.println("-----Interpolasi Polinom-----");
+                    Matriks M4 = new Matriks();
+                    MenuInputMatriks(M4);
+                    MenuInterpolasi(M4);
                     break;
                 case 5:
                     System.out.println("-----------------------------");
@@ -131,9 +135,8 @@ class Program {
     public static void MenuUtama(){
         System.out.println();
         System.out.println("-----------------------------");
-        System.out.println("-----------MATRIKS-----------");
+        System.out.println("----------MAIN MENU----------");
         System.out.println();
-        System.out.println("MENU");
         System.out.println("1. Sistem Persamaan Linear");
         System.out.println("2. Determinan");
         System.out.println("3. Matriks Balikan");
@@ -174,25 +177,30 @@ class Program {
 
         metodeDeterminan = scan.nextInt();
         
+        String Solusi = "";
+        
         if (metodeDeterminan==1){
             hasilDet = MProses.DeterminanOBE();
             System.out.println("Determinan matriks: " + hasilDet);
+            Solusi += "Determinan matriks: " + hasilDet;
         }
         else if(metodeDeterminan==2){
             hasilDet = MProses.DeterminanKofaktor();
             System.out.println("Determinan matriks: " + hasilDet);
+            Solusi += "Determinan matriks: " + hasilDet;
         }
         else{
             System.out.println("Anda salah Input!");
         }
+        save_solusi(Solusi);
     }
 
-    public static void MenuInverse(Matriks MInput, Matriks MProses){
+    public static void MenuInverse(Matriks MProses){
         System.out.println("-----------------------------");
         System.out.println("-----------INVERSE-----------");
         
         System.out.println("Sebelum di-inverse: ");
-        MInput.TulisMatriks();
+        MProses.TulisMatriks();
         System.out.println();
         
         MProses = MProses.BuatMatriksBalikan();
@@ -209,13 +217,19 @@ class Program {
         }
     }
 
+    public static void MenuInterpolasi(Matriks MProses){
+        System.out.println("-----------------------------");
+        System.out.println("-----Interpolasi Polinom-----");
+        MProses.Interpolasi();
+    }
 
     public static void MenuInputMatriks(Matriks MInput){
         boolean inputMatriks = true;
         while (inputMatriks){
             int tipeInput;
             Scanner scan = new Scanner(System.in);
-
+            System.out.println("\n-------------------------------");
+            System.out.println("---------Input Matriks---------");
             System.out.println("Memasukkan matriks");
             System.out.println("1. Masukan dari papan ketik");
             System.out.println("2. Masukan dari file teks");
@@ -248,5 +262,29 @@ class Program {
         System.out.println();
     }   
     
+    public static void save_solusi(String Solusi) {
+        System.out.print("Apakah Anda ingin menyimpan solusi? Y/N: ");
+        
+        Scanner scan = new Scanner(System.in);
+        char ans2 = scan.next().charAt(0);
+        if (ans2=='Y' || ans2=='y'){
+            try {
+                System.out.print("Masukkan nama file: ");
+                Scanner scan2 = new Scanner(System.in);
+                String nama_file = scan2.nextLine();
+                        
+                nama_file += ".txt";
+            
+                FileOutputStream save_file = new FileOutputStream(("./test/" + nama_file));
+            
+                byte value[] = Solusi.getBytes();
+                save_file.write(value);
+                
+                // scan.close();
+                save_file.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
-*/

@@ -67,7 +67,9 @@ public class SPL extends Matriks {
         //SPL dalam bentuk matriks augmented 
         SPL M1 = this;
 
+        System.out.println("Setelah dilakukan eliminasi Gauss:");
         M1.EliminasiGauss();
+        M1.TulisMatriks();
 
         if(!M1.isSolutionExist()) {
             System.out.println("SPL tidak memiliki solusi.");
@@ -86,7 +88,9 @@ public class SPL extends Matriks {
         //SPL dalam bentuk matriks augmented 
         SPL M1 = this;
 
+        System.out.println("Setelah dilakukan eliminasi Gauss-Jordan:");
         M1.EliminasiGaussJordan();
+        M1.TulisMatriks();
 
         if(!M1.isSolutionExist()) {
             System.out.println("SPL tidak memiliki solusi.");
@@ -199,7 +203,7 @@ public class SPL extends Matriks {
             boolean leadingOne = false;
 
             for (int i = 0; i < M1.NBrsEff; i++) {
-                if (M1.M[i][j] != 0 && M1.M[i][j] != 1) {
+                if (M1.M[i][j] != 0 && (M1.M[i][j] != 1 && leadingOne == false)) {
                     count_varBebas += 1;
                 }
                 if (!leadingOne && M1.M[i][j] == 1) {
@@ -214,12 +218,12 @@ public class SPL extends Matriks {
         }
 
         // Memanipulasi matriks agar menjadi sebuah matriks persegi (jika bukan)
-        while (!M1.Koefisien().IsPersegi()) {
+        /*while (M1.NBrsEff != M1.NKolEff - 1) {
             M1.NBrsEff += 1;
-            for (int j = 0; j < M1.NKolEff; j++) {
+            for (int j = 0; j < M1.NKolEff - 1; j++) {
                 M1.M[M1.NBrsEff-1][j] = 0;
             }
-        }
+        } */
 
         // Mengurutkan matriks berdasarkan posisi variabel
         int [] IdxKolPivot = new int[M1.NBrsEff+1];

@@ -522,6 +522,7 @@ public class Matriks {
         int tipeInput = scan.nextInt();
 
         Matriks Interpolasi = new Matriks();
+        String Solusi = "";
 
         if (tipeInput==1){
             int N;
@@ -591,21 +592,36 @@ public class Matriks {
 
         Interpolasi.EliminasiGaussJordan();
         
-        System.out.print("Masukkan titik yang akan ditaksir: ");
-        double taksir = scan.nextDouble();
+        boolean sudah = false;
 
-        double sum = 0;
-        for(int i=0; i < Interpolasi.NBrsEff; i++) {
-            double pangkat = i;
-            if (i==0){
-                sum += Interpolasi.M[i][Interpolasi.NKolEff-1];
+        while (!sudah) {
+            System.out.print("Masukkan titik yang akan ditaksir: ");
+            double taksir = scan.nextDouble();
+
+            double sum = 0;
+            for(int i=0; i < Interpolasi.NBrsEff; i++) {
+                double pangkat = i;
+                if (i==0){
+                    sum += Interpolasi.M[i][Interpolasi.NKolEff-1];
+                }
+                else{
+                    sum = sum + Interpolasi.M[i][Interpolasi.NKolEff-1] * Math.pow(taksir, pangkat);
+                } 
             }
-            else{
-                sum = sum + Interpolasi.M[i][Interpolasi.NKolEff-1] * Math.pow(taksir, pangkat);
-            } 
+            System.out.println("Hasil taksiran: ");
+            System.out.println("P"+ (Interpolasi.NBrsEff-1) + "(" + taksir +") = " + sum );
+
+            Solusi += "P"+ (Interpolasi.NBrsEff-1) + "(" + taksir +") = " + sum + "\n";
+
+            System.out.print("Apakah anda ingin menaksir titik lain? Y/N ");
+
+            Scanner scan1 = new Scanner(System.in);
+            char ans = scan1.next().charAt(0);
+            if (ans=='N' || ans=='n') {
+                save_solusi(Solusi);
+                sudah = true;
+            }
         }
-        System.out.println("Hasil taksiran: ");
-        System.out.println("P"+ (Interpolasi.NBrsEff-1) + "(" + taksir +") = " + sum );
     }
 
    /* ======================== FUNGSI PEMBANTU ======================== */
@@ -745,6 +761,31 @@ public class Matriks {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void save_solusi(String Solusi) {
+        System.out.print("Apakah Anda ingin menyimpan solusi? Y/N: ");
+        
+        Scanner scan = new Scanner(System.in);
+        char ans2 = scan.next().charAt(0);
+        if (ans2=='Y' || ans2=='y'){
+            try {
+                System.out.print("Masukkan nama file: ");
+                String nama_file = scan.nextLine();
+                        
+                nama_file += ".txt";
+            
+                FileOutputStream save_file = new FileOutputStream(("./test/" + nama_file));
+            
+                byte value[] = Solusi.getBytes();
+                save_file.write(value);
+                
+                // scan.close();
+                save_file.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
