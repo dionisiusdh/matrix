@@ -6,10 +6,12 @@ class Program {
     public static void main(String[] args) throws InterruptedException{
         // DEBUG SPL
         SPL M3 = new SPL();
-        M3.BacaMatriksTxt("src/spl_test2.txt"); // ./spl_test2.txt pas compile
+        M3.BacaMatriksTxt("test/1b.txt"); // ./spl_test2.txt pas compile
         System.out.println("Matriks yang anda masukkan: ");
+        
+        M3.EliminasiGaussJordan();
         M3.TulisMatriks();
-        M3.menuSPL(2);
+        M3.splGaussJordan();
         //M3.save_solusi("Gauss-Jordan");
 
     }
@@ -78,7 +80,7 @@ class Program {
         boolean exit = false;
         Matriks MInput = new Matriks();
         
-        menuInputMatriks(MInput);
+        MenuInputMatriks(MInput);
 
         while(!exit){
             loadingSleep();
@@ -101,7 +103,7 @@ class Program {
                     break;
 
                 case 3:
-                    menuInverse(MInput, MProses);
+                    MenuInverse(MInput, MProses);
                     break;
                 case 4:
                     System.out.println("-----------------------------");
@@ -185,7 +187,7 @@ class Program {
         }
     }
 
-    public static void menuInverse(Matriks MInput, Matriks MProses){
+    public static void MenuInverse(Matriks MInput, Matriks MProses){
         System.out.println("-----------------------------");
         System.out.println("-----------INVERSE-----------");
         
@@ -208,7 +210,7 @@ class Program {
     }
 
 
-    public static void menuInputMatriks(Matriks MInput){
+    public static void MenuInputMatriks(Matriks MInput){
         boolean inputMatriks = true;
         while (inputMatriks){
             int tipeInput;

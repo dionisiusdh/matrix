@@ -217,7 +217,7 @@ public class SPL extends Matriks {
         while (!M1.Koefisien().IsPersegi()) {
             M1.NBrsEff += 1;
             for (int j = 0; j < M1.NKolEff; j++) {
-                M1.M[M1.NBrsEff=1][j] = 0;
+                M1.M[M1.NBrsEff-1][j] = 0;
             }
         }
 

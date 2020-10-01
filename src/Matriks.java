@@ -515,7 +515,6 @@ public class Matriks {
     }
 
     public void Interpolasi(){
- 
         System.out.println("1. Masukan titik dari keyboard");
         System.out.println("2. Masukan titik dari file");
         System.out.print("Pilihan Anda: ");
