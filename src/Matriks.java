@@ -808,12 +808,12 @@ public class Matriks {
     public void save_solusi(String Solusi) {
         System.out.print("Apakah Anda ingin menyimpan solusi? Y/N: ");
         
-        Scanner scan = new Scanner(System.in);
-        char ans2 = scan.next().charAt(0);
+        Scanner scan_save = new Scanner(System.in);
+        char ans2 = scan_save.next().charAt(0);
         if (ans2=='Y' || ans2=='y'){
             try {
                 System.out.print("Masukkan nama file (tanpa ekstensi): ");
-                String nama_file = scan.nextLine();
+                String nama_file = scan_save.nextLine();
                         
                 nama_file += ".txt";
             
