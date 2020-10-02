@@ -13,27 +13,27 @@ public class SPL extends Matriks {
             case 1:
                 System.out.println("Penyelesaian SPL menggunakan eliminasi Gauss: ");
                 this.splGauss();
-                this.save_solusi("eliminasi Gauss:");
+                this.save_solusi_spl("eliminasi Gauss:");
                 break;
             case 2:
                 System.out.println("Penyelesaian SPL menggunakan eliminasi Gauss-Jordan: ");
                 this.splGaussJordan();
-                this.save_solusi("eliminasi Gauss-Jordan:");
+                this.save_solusi_spl("eliminasi Gauss-Jordan:");
                 break;
             case 3:
                 System.out.println("Penyelesaian SPL menggunakan matriks balikan: ");
                 this.splMatriksBalikan();
-                this.save_solusi("matriks balikan:");
+                this.save_solusi_spl("matriks balikan:");
                 break;
             case 4:
                 System.out.println("Penyelesaian SPL menggunakan kaidah Cramer: ");
                 this.splCramer();
-                this.save_solusi("kaidah Cramer:");
+                this.save_solusi_spl("kaidah Cramer:");
                 break;
         }
     }
 
-    public void save_solusi(String metode) {
+    public void save_solusi_spl(String metode) {
         Scanner scan1 = new Scanner(System.in);
         System.out.print("Apakah Anda ingin menyimpan solusi? Y/N: ");
         char ans = scan1.next().charAt(0);

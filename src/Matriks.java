@@ -660,6 +660,7 @@ public class Matriks {
     public void regresi(){
         SPL Matriks1 ;
         SPL hasil ;
+        String Solusi = "Hasil regresi linear berganda:\n";
         
         System.out.println("1. Masukan titik dari keyboard");
         System.out.println("2. Masukan titik dari file");
@@ -696,7 +697,6 @@ public class Matriks {
                 hasil.M[i][j] = 10;
                 for (int k = 0; k<Matriks1.NBrsEff; k++){
                    hasil.M[i][j] += Matriks1.M[k][i]*Matriks1.M[k][j];  
-                     
                 }    
             }
         }
@@ -709,17 +709,23 @@ public class Matriks {
             }
         }
         for (int j = 0; j<answer.NBrsEff;j++){
-            System.out.print("Masukkan nilai x yang ingin ditaksir (X" + (j+1)+") :");
+            System.out.print("Masukkan nilai x yang ingin ditaksir (X" + (j+1)+") : ");
             float nilai = scan.nextFloat();
-            System.out.println();
             answer.M[j][0] = nilai*answer.M[j][0];
         }
         float sum = 0;
         System.out.print("Hasil taksiran : ");
+        Solusi += "Hasil taksiran:\n";
+
         for (int i = 0; i<answer.NBrsEff;i++){
             sum+=answer.M[i][0];
         }
+        //sum = Math.abs(sum);
+
         System.out.print(sum + "\n");
+        Solusi += sum + "\n";
+
+        save_solusi(Solusi);
     }
         
 
@@ -871,7 +877,8 @@ public class Matriks {
         if (ans2=='Y' || ans2=='y'){
             try {
                 System.out.print("Masukkan nama file (tanpa ekstensi): ");
-                String nama_file = scan_save.nextLine();
+                Scanner scan_nama = new Scanner(System.in);
+                String nama_file = scan_nama.nextLine();
                         
                 nama_file += ".txt";
             

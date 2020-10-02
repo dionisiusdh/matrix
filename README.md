@@ -65,6 +65,7 @@ Algeo01-19058
 │
 ├── test
 │   └── ... .txt (Studi kasus 1-8)
+│   └── ..._ans.txt (Hasil studi kasus 1-8)
 │
 └── README.md
 ```
