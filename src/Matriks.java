@@ -478,22 +478,28 @@ public class Matriks {
                     swapBaris(j, j+1);
                 }
             }
-        }
-
-        for(int i = 0; i<this.NBrsEff;i++){
-            float pembagi = PivotPembagi(i);
-            for (int j = 0; j<this.NKolEff;j++){
-                this.M[i][j] = this.M[i][j]/pembagi;
-                this.M[i][j] = PerbaikiNol(i, j);
+            for(int a = 0; a<this.NBrsEff;a++){
+                float pembagi2 = PivotPembagi(a);
+                for (int b = 0; b<this.NKolEff;b++){
+                    this.M[a][b] = this.M[a][b]/pembagi2;
+                    this.M[a][b] = PerbaikiNol(a, b);
+                }
             }
         }
+        // for(int i = 0; i<this.NBrsEff;i++){
+        //     float pembagi = PivotPembagi(i);
+        //     for (int j = 0; j<this.NKolEff;j++){
+        //         this.M[i][j] = this.M[i][j]/pembagi;
+        //         this.M[i][j] = PerbaikiNol(i, j);
+        //     }
+        // }
     }
 
     public void EliminasiGaussJordan() {
         // Menggunakan eliminasi Gauss Jordan untuk membuat matriks echelon tereduksi
         // Pertama-tama, terapkan eliminasi Gauss pada matrix agar menjadi matriks echelon
         this.EliminasiGaussV3();
-        
+
         // Pencarian baris pivot
         // Retrieve pembagi dan pengali dari matriks untuk dilakukan OBE
         for(int i=this.NBrsEff; i >= 0; i--) {
@@ -589,9 +595,8 @@ public class Matriks {
                 e.printStackTrace();
             }
         }
-
+ 
         Interpolasi.EliminasiGaussJordan();
-
         // Output persamaan hasil interpolasi polinom
         int counter = 2;
 
