@@ -700,16 +700,22 @@ public class Matriks {
                 }    
             }
         }
+        hasil.TulisMatriks();
         hasil.EliminasiGaussJordan();
         SPL answer = new SPL();
-        answer = BuatSPL(hasil.NBrsEff - 1, 1);
+        answer = BuatSPL(hasil.NBrsEff, 1);
         if(hasil.isSingleSolution()){
             for (int i = 1 ; i<hasil.NBrsEff; i++){
-                answer.M[i-1][0] = hasil.M[i][hasil.NKolEff-1];
+                if (i == 0){
+                    answer.M[i][0] = 1;
+                }
+                else {
+                    answer.M[i][0] = hasil.M[i][hasil.NKolEff-1];
+                }
             }
         }
-        for (int j = 0; j<answer.NBrsEff;j++){
-            System.out.print("Masukkan nilai x yang ingin ditaksir (X" + (j+1)+") : ");
+        for (int j = 1; j<answer.NBrsEff;j++){
+            System.out.print("Masukkan nilai x yang ingin ditaksir (X" + (j)+") : ");
             float nilai = scan.nextFloat();
             answer.M[j][0] = nilai*answer.M[j][0];
         }
