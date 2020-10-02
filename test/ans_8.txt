@@ -1,3 +1,0 @@
-Hasil regresi linear berganda:
-Hasil taksiran:
-4.450026
