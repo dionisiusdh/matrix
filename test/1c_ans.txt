@@ -1,2 +1,5 @@
-Penyelesaian SPL menggunakan Gauss-Jordan
+Penyelesaian SPL menggunakan eliminasi Gauss-Jordan:
+SPL memiliki solusi tunggal.
+x1 = 1.0
+x2 = -2.0
 x3 = 1.0
