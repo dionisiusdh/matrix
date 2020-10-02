@@ -41,6 +41,14 @@ public class Matriks {
 
         return M1;
     }
+
+    public SPL BuatSPL(int NBrsEff, int NKolEff) {
+        SPL M1 = new SPL();
+        M1.NBrsEff = NBrsEff;
+        M1.NKolEff = NKolEff;
+
+        return M1;
+    }
     
     public void BacaMatriks() {
         // Membaca input matriks
@@ -650,9 +658,8 @@ public class Matriks {
     }
 
     public void regresi(){
-        Matriks regresi = new Matriks();
-        Matriks Matriks1 = new Matriks();
-        Matriks input = new Matriks();
+        SPL Matriks1 ;
+        SPL hasil ;
         
         System.out.println("1. Masukan titik dari keyboard");
         System.out.println("2. Masukan titik dari file");
@@ -661,39 +668,59 @@ public class Matriks {
         int tipeInput = scan.nextInt();
 
         if(tipeInput == 1){
-            input.BacaMatriks();
+            this.BacaMatriks();
         }
         else{//tipeInput == 2
             System.out.print("Masukkan path file .txt (Contoh: test/1.txt): ");
             Scanner in = new Scanner(System.in);
             String pathTxt = in.nextLine();
-
-            input.BacaMatriksTxt(pathTxt);
+            this.BacaMatriksTxt(pathTxt);
         }
-
-        Matriks1 = BuatMatriks(input.NBrsEff, input.NKolEff+1);
-        for (int i = 0; i<input.NBrsEff; i++){
-            for (int j = 0; j< input.NKolEff+1; j++){
+        //this.TulisMatriks();
+        Matriks1 = BuatSPL(this.NBrsEff, this.NKolEff+1);
+        for (int i = 0; i<this.NBrsEff; i++){
+            for (int j = 0; j< this.NKolEff+1; j++){
                 if (j == 0){
                     Matriks1.M[i][j] = 1;
                 }
                 else{
-                    Matriks1.M[i][j] = input.M[i][j-1];
+                    Matriks1.M[i][j] = this.M[i][j-1];
                 }
             }
         }
-        regresi.BuatMatriks(Matriks1.NKolEff-1, Matriks1.NKolEff);
-        for (int i = 0 ; i<regresi.NBrsEff; i++){
-            for (int j = 0; j<regresi.NKolEff; j++){
-                regresi.M[i][j] = 0;
+        //Matriks1.TulisMatriks();
+        hasil = BuatSPL(Matriks1.NKolEff-1, Matriks1.NKolEff);
+        
+        for (int i = 0 ; i<hasil.NBrsEff; i++){
+            for (int j = 0; j<hasil.NKolEff; j++){
+                hasil.M[i][j] = 10;
                 for (int k = 0; k<Matriks1.NBrsEff; k++){
-                    regresi.M[i][j] += Matriks1.M[k][i]*Matriks1.M[k][j];   
-                    }    
-                }
+                   hasil.M[i][j] += Matriks1.M[k][i]*Matriks1.M[k][j];  
+                     
+                }    
             }
-        regresi.TulisMatriks();
-        regresi.EliminasiGaussJordan();
         }
+        hasil.EliminasiGaussJordan();
+        SPL answer = new SPL();
+        answer = BuatSPL(hasil.NBrsEff - 1, 1);
+        if(hasil.isSingleSolution()){
+            for (int i = 1 ; i<hasil.NBrsEff; i++){
+                answer.M[i-1][0] = hasil.M[i][hasil.NKolEff-1];
+            }
+        }
+        for (int j = 0; j<answer.NBrsEff;j++){
+            System.out.print("Masukkan nilai x yang ingin ditaksir (X" + (j+1)+") :");
+            float nilai = scan.nextFloat();
+            System.out.println();
+            answer.M[j][0] = nilai*answer.M[j][0];
+        }
+        float sum = 0;
+        System.out.print("Hasil taksiran : ");
+        for (int i = 0; i<answer.NBrsEff;i++){
+            sum+=answer.M[i][0];
+        }
+        System.out.print(sum + "\n");
+    }
         
 
    /* ======================== FUNGSI PEMBANTU ======================== */
