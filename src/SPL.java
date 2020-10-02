@@ -194,8 +194,9 @@ public class SPL extends Matriks {
 
         for(int i=0; i < this.NBrsEff; i++) {
             System.out.println("x" + counter + " = " + M1.M[i][this.NKolEff-1]);
-            this.Solusi = "x" + counter + " = " + M1.M[i][this.NKolEff-1];
+            this.Solusi += "x" + counter + " = " + M1.M[i][this.NKolEff-1];
             counter += 1;
+            this.Solusi += "\n";
         } 
     }
 
