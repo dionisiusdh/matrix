@@ -644,6 +644,22 @@ public class Matriks {
         }
     }
 
+    public void regresi(){
+        SPL regresi = new SPL();
+        float[] ans;
+        regresi.BuatMatriks(this.NBrsEff, this.NKolEff);
+        for (int i = 0 ; i<this.NBrsEff; i++){
+            for (int j = 0; j<this.NKolEff; j++){
+                regresi.M[i][j] = 0;
+                for (int k = 0; k<this.NBrsEff; k++){
+                    regresi.M[i][j] += this.M[k][i]*this.M[k][j];
+                }
+            }
+        }
+        regresi.EliminasiGaussJordan();
+
+    }
+
    /* ======================== FUNGSI PEMBANTU ======================== */
     public boolean IsBrsPivot(int brs) {
         // Cek apakah sebuah baris memiliki pivot (elemen yang != 0)
