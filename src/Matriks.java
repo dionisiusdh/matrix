@@ -1,4 +1,4 @@
-package src; // Kalo dipake jadi gabisa dicompile, comment dlu sebelum compile pakai javac
+//package src; // Kalo dipake jadi gabisa dicompile, comment dlu sebelum compile pakai javac
 
 import java.io.File;
 import java.io.FileReader;
@@ -562,7 +562,7 @@ public class Matriks {
         }
 
         else if(tipeInput==2){
-            System.out.print("Masukkan path file .txt (Contoh: test/1.txt): ");
+            System.out.print("Masukkan path file .txt (Contoh: ../test/1a.txt): ");
             Scanner in = new Scanner(System.in);
             String pathTxt = in.nextLine();
             try{
@@ -672,7 +672,7 @@ public class Matriks {
             this.BacaMatriks();
         }
         else{//tipeInput == 2
-            System.out.print("Masukkan path file .txt (Contoh: test/1.txt): ");
+            System.out.print("Masukkan path file .txt (Contoh: ../test/1a.txt): ");
             Scanner in = new Scanner(System.in);
             String pathTxt = in.nextLine();
             this.BacaMatriksTxt(pathTxt);

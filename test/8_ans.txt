@@ -1,3 +1,3 @@
 Hasil regresi linear berganda:
 Hasil taksiran:
-0.78414106
+0.938426

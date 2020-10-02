@@ -1,4 +1,4 @@
-package src; // Kalo dipake jadi gabisa dicompile, comment dlu sebelum compile pakai javac
+//package src; // Kalo dipake jadi gabisa dicompile, comment dlu sebelum compile pakai javac
 
 import java.util.*;
 import java.io.*;
@@ -174,7 +174,7 @@ class Program {
                 inputMatriks = false;
             }
             else if(tipeInput==2){
-                System.out.print("Masukkan path file .txt (Contoh: test/1.txt): ");
+                System.out.print("Masukkan path file .txt (Contoh: ../test/1a.txt): ");
                 Scanner in = new Scanner(System.in);
                 String pathTxt = in.nextLine();
                 MInput.BacaMatriksTxt(pathTxt);

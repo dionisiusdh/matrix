@@ -1,4 +1,4 @@
-package src; // Kalo dipake jadi gabisa dicompile, comment dlu sebelum compile pakai javac
+//package src; // Kalo dipake jadi gabisa dicompile, comment dlu sebelum compile pakai javac
 
 import java.util.*;
 import java.io.*;
