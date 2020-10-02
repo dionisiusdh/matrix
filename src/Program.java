@@ -153,6 +153,7 @@ class Program {
     public static void MenuRegresi(Matriks MProses){
         System.out.println("-----------------------------");
         System.out.println("---Regresi Linier Berganda---");
+        MProses.regresi();
     }
 
     public static void MenuInputMatriks(Matriks MInput){
