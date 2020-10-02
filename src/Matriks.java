@@ -694,24 +694,18 @@ public class Matriks {
         
         for (int i = 0 ; i<hasil.NBrsEff; i++){
             for (int j = 0; j<hasil.NKolEff; j++){
-                hasil.M[i][j] = 10;
+                hasil.M[i][j] = 0;
                 for (int k = 0; k<Matriks1.NBrsEff; k++){
                    hasil.M[i][j] += Matriks1.M[k][i]*Matriks1.M[k][j];  
                 }    
             }
         }
-        hasil.TulisMatriks();
         hasil.EliminasiGaussJordan();
         SPL answer = new SPL();
         answer = BuatSPL(hasil.NBrsEff, 1);
         if(hasil.isSingleSolution()){
-            for (int i = 1 ; i<hasil.NBrsEff; i++){
-                if (i == 0){
-                    answer.M[i][0] = 1;
-                }
-                else {
-                    answer.M[i][0] = hasil.M[i][hasil.NKolEff-1];
-                }
+            for (int i = 0 ; i<hasil.NBrsEff; i++){
+                answer.M[i][0] = hasil.M[i][hasil.NKolEff-1];
             }
         }
         for (int j = 1; j<answer.NBrsEff;j++){
