@@ -20,12 +20,10 @@
 <p align="center">
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Matris.png/440px-Matris.png" alt="drawing" width="200"/><br>
 </p>
-MatriX is a program written in java with the following capabilities<br>
-<li>
+MatriX is a program written in java with the following capabilities
   <ul>1. Solving linear equation using Gauss and Gauss-Jordan elimination technique, Inverse Matrix, and Cramer's Rule</ul>
   <ul>2. Solving interpolation and linear regression problems</ul>
   <ul>3. Calculate the determinant of a matrix with various methods such as row reduction and cofactor expansion</ul>
-</li>
 
 ### Folder Structure
 <span id='struktur'></span>
